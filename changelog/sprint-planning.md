@@ -36,4 +36,5 @@
 ## Retrospective
 
 Jadwal pengerjaan seharusnya dikerjakan di awal minggu, jangan di weekend dikerjakannya.
+
 Nanti lagi lebih teliti dalam melakukan initialisasi dan pemasangan gradle.
