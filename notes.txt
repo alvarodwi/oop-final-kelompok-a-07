@@ -1,0 +1,40 @@
+Args::
+java fifteen.exe -> jalanin new puzzle (difficulty null)
+java fifteen.exe 3/4/5 -> jalanin new puzzle (difficulty udah di select)
+java fifteen.exe > 5 -> jalanin new puzzle (tulis difficulty custom)
+
+error handling ketika n < 3 atau n > 10 atau ketika diinput non-integer
+
+Komponen::
+> New puzzle (main)
+ - Image chooser
+ - difficulty chooser (3, 4, 5 tile)
+
+> Puzzle (asli tempat gamenya)
+ - Slider, grid/boxnya (behaviour, click listener, animasi dll)
+ - gambar asli
+ - move counter
+ - timer
+ - reset
+ - tombol pause
+
+Class::
+<UI> 
+-- Acid
+Puzzle.java (berisi si page puzzle nya)
+ - Behavior:
+   Pause, Reset
+Launcher.java (berisi image chooser + diff chooser)
+ - Behavior:
+   Start
+<CORE>
+-- Alvaro
+Board.java [kotak puzzle]
+Cell.java [elemen kerangka setiap item]
+Item.java [item yang bakal diacak]
+ImageLoader.java [custom image]
+ImageResizer.java [custom image]
+-- Ariq
+Timer.java [literally timer]
+Counter.java [buat ngitung move yang dilakuin]
+Session.java [berisi difficulty puzzle,preview image asli, data statistik puzzle sekarang]

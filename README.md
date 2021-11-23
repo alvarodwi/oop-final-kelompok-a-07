@@ -14,19 +14,16 @@ This repository is a final project (Java GUI) from Object-Oriented Programming C
 | 140810200049 | Rafiansyah Rasyid Wikawang |
 
 ## Change log
-- **[Sprint Planning](changelog/sprint-planning.md) - (planning date)** 
-   -  Short changes 1
-   - Short changes 2
+- **[Sprint Planning](changelog/sprint-planning.md) - (20/11/2021)** 
+   - Inisialisasi projek gradle
 
-- **[Sprint 1](changelog/sprint-1.md) - (date from x until x)** 
-   - Short changes 1
-   - Short changes 2
+- **[Sprint 1](changelog/sprint-1.md) - (20/11/2021 - 22/11/2021)** 
 
-- **[Sprint 2](changelog/sprint-2.md) - (date from x until x)** 
+- **[Sprint 2](changelog/sprint-2.md) - (24/11/2021 - 29/11/2021)** 
    - Short changes 1
    - Short changes 2
    
-- **[Sprint 3](changelog/sprint-3.md) - (date from x until x)** 
+- **[Sprint 3](changelog/sprint-3.md) - (x - x)** 
    - Short changes 1
    - Short changes 2
 
