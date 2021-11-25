@@ -14,7 +14,7 @@
 
 | Planned (n) | Completed (n) |
 | ----------- | ------------- |
-| 11          | n             |
+| 11          | 2             |
 
 ## Sprint 2 Backlog
 
@@ -24,8 +24,8 @@
 | 1.3 | Implementasi Komponen Timer      | Ariq    |        |
 | 1.4 | Implementasi Komponen Counter    | Ariq    |        |
 | 1.5 | Implementasi Game Session        | Ariq    |        |
-| 1.6 | Implementasi UI Launcher         | Rasyid  |        |
-| 2.1 | Implementasi UI Puzzle           | Rasyid  |        |
+| 1.6 | Implementasi UI Launcher         | Rasyid  | Done   |
+| 2.1 | Implementasi UI Puzzle           | Rasyid  | Done   |
 | 2.2 | Implementasi Gameplay            | Alvaro  |        |
 | 2.3 | Implementasi Custom Image Loader | Alvaro  |        |
 | 2.4 | Menghubungkan Launcher ke Puzzle | Alvaro  |        |
