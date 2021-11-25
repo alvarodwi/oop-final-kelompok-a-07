@@ -9,6 +9,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+    id("org.openjfx.javafxplugin") version "0.0.10"
 }
 
 repositories {
@@ -27,4 +28,8 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass.set("team.emergence._15puzzle.App")
+}
+
+javafx {
+    modules("javafx.controls", "javafx.fxml")
 }
