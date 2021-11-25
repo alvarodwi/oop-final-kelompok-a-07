@@ -15,11 +15,16 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+
+    jcenter()
+    maven("https://nexus.gluonhq.com/nexus/content/repositories/releases/")
 }
 
 dependencies {
     // Use JUnit test framework.
     testImplementation("junit:junit:4.13.2")
+    
+    implementation("com.gluonhq:charm:2.0.0")
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:30.1.1-jre")
