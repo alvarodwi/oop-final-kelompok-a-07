@@ -3,12 +3,26 @@
  */
 package team.emergence._15puzzle;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.util.Objects;
+
+public class App extends Application {
+    public static void main(String[] args) {
+        launch(args);
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/Puzzle.fxml")));
+        primaryStage.setTitle("15 Game");
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("app.css")).toExternalForm());
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
