@@ -8,6 +8,7 @@
         {
             "type": "java",
             "name": "Launch App",
+            
             "request": "launch",
             "mainClass": "team.emergence._15puzzle.App",
             "projectName": "app"

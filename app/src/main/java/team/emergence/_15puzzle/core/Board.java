@@ -1,164 +1,164 @@
 package team.emergence._15puzzle.core;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Label;
-import javafx.scene.image.*;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
+import javafx.animation.PathTransition;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
+import team.emergence._15puzzle.model.GameConfig;
+import team.emergence._15puzzle.util.Constants;
+import team.emergence._15puzzle.util.animation.LineToAbs;
+import team.emergence._15puzzle.util.animation.MoveToAbs;
 
-import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class Board extends FlowPane {
-    public static Cell[][] board;
+public class Board extends Pane {
+    private final GameConfig config;
+    private final BoardState state;
+    private final List<Cell> cells = new ArrayList<>();
 
-    private ArrayList<Cell> completeBoard = new ArrayList<Cell>();
-    public final int dimension;
-    private int x, y;
-    private final int pieceWidth, pieceHeight;
 
-    public Board(int dimension, BufferedImage puzzle) {
-        this.dimension = dimension;
-        board = new Cell[dimension][dimension];
-        x = 0;
-        y = 0;
-        pieceHeight = puzzle.getWidth() / dimension;
-        pieceWidth = puzzle.getWidth() / dimension;
-        this.setAlignment(Pos.TOP_LEFT);
-        this.setPrefSize(600, 600);
-        this.setPrefWrapLength(600);
-        this.setVgap(0);
-        this.setHgap(0);
-
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                if (i == dimension - 1 && j == dimension - 1) {
-                    continue;
-                }
-                Piece newPiece = new Piece(i, j, new ImageView(SwingFXUtils.toFXImage(puzzle.getSubimage(x, y, pieceWidth, pieceHeight), null)));
-                newPiece.setOnAction(event -> movePiece(newPiece));
-                completeBoard.add(new Cell(i, j, newPiece));
-                x += pieceWidth;
-            }
-            x = 0;
-            y += pieceHeight;
-        }
-        randomizeBoard();
+    public Board(GameConfig config, BoardState state) {
+        this.config = config;
+        this.state = state;
+        initializeBoard();
     }
 
-    public void randomizeBoard() {
+    private void initializeBoard() {
+        int tileCount = config.getDifficulty();
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream(config.getFilePath()), 600, 600, false, true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        for (int x = 0; x < tileCount; x++) {
+            for (int y = 0; y < tileCount; y++) {
+                ImageView tile = new ImageView(image);
+                Rectangle2D rect = new Rectangle2D(
+                        config.getTileSize() * x,
+                        config.getTileSize() * y,
+                        config.getTileSize(),
+                        config.getTileSize()
+                );
+                tile.setViewport(rect);
+
+                if (x == (tileCount - 1) && y == (tileCount - 1)) {
+                    tile = null;
+                }
+
+                cells.add(new Cell(x, y, tile, config.getTileSize()));
+            }
+        }
+
+        shuffleCells();
+
+        for (int i = 0; i < cells.size(); i++) {
+            Cell cell = cells.get(i);
+            Node imageView = cell.getImageView();
+
+            if (imageView == null)
+                continue;
+
+            imageView.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                moveCell((Node) mouseEvent.getSource());
+            });
+
+            imageView.relocate(cell.getLayoutX(), cell.getLayoutY());
+            this.getChildren().add(cell.getImageView());
+        }
+    }
+
+    public void shuffleCells() {
         Random rand = new Random();
-        ArrayList<Cell> cellStore = new ArrayList<>(completeBoard);
 
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                if (i == dimension - 1 && j == dimension - 1) {
-                    board[i][j] = new Cell(i, j);
-                    continue;
-                }
-                int randomIndex = rand.nextInt(completeBoard.size());
-                completeBoard.get(randomIndex).getPiece().setPos(i, j);
-                board[i][j] = new Cell(i, j, completeBoard.get(randomIndex).getPiece());
-                completeBoard.remove(randomIndex);
-            }
-        }
-        completeBoard = cellStore;
-        cleanBoard();
-    }
+        for (int i = 0; i < 1000; i++) {
+            int a = rand.nextInt(cells.size());
+            int b = rand.nextInt(cells.size());
 
-    public void updateBoard() {
-        System.out.println("Board size is " + board.length);
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                if (board[i][j].getPiece() == null) {
-                    Label label = new Label();
-                    label.setPrefSize(pieceWidth, pieceHeight);
-                    this.getChildren().add(label);
-                    continue;
-                }
-                System.out.println("Board is " + board[i][j].toString());
-                this.getChildren().add(board[i][j].getPiece());
-            }
+            if (a == b)
+                continue;
+
+            if (cells.get(a).isEmpty() || cells.get(b).isEmpty())
+                continue;
+
+            swapCell(cells.get(a), cells.get(b));
         }
     }
 
-    public void cleanBoard() {
-        this.getChildren().removeAll();
-        this.updateBoard();
+    private void swapCell(Cell a, Cell b) {
+        ImageView tmp = a.getImageView();
+        a.setImageView(b.getImageView());
+        b.setImageView(tmp);
     }
 
-    private void movePiece(Piece p) {
-        Cell[][] localBoard = Board.board;
-        try {
-            if (localBoard[p.getPosX() + 1][p.getPosY()].getPiece() == null) {
-                Board.board[p.getPosX() + 1][p.getPosY()].setPiece(p);
-                Board.board[p.getPosX()][p.getPosY()].setPiece(null);
-                p.setPos(p.getPosX() + 1, p.getPosY());
-                this.cleanBoard();
-                checkAnswer();
-                return;
+    public void moveCell(Node node) {
+        Cell currentCell = cells.stream()
+                .filter(c -> c.getImageView() == node)
+                .findFirst()
+                .orElse(null);
+
+        Cell emptyCell = cells.stream()
+                .filter(Cell::isEmpty)
+                .findFirst()
+                .orElse(null);
+
+        if (currentCell == null || emptyCell == null)
+            return;
+
+        int steps = Math.abs(currentCell.getX() - emptyCell.getX()) + Math.abs(currentCell.getY() - emptyCell.getY());
+        if (steps != 1)
+            return;
+
+        System.out.println("Transition: " + currentCell + " -> " + emptyCell);
+
+        Path path = new Path();
+        path.getElements()
+                .add(new MoveToAbs(currentCell.getImageView(), currentCell.getLayoutX(), currentCell.getLayoutY()));
+        path.getElements()
+                .add(new LineToAbs(currentCell.getImageView(), emptyCell.getLayoutX(), emptyCell.getLayoutY()));
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(100));
+        pathTransition.setNode(currentCell.getImageView());
+        pathTransition.setPath(path);
+        pathTransition.setOrientation(PathTransition.OrientationType.NONE);
+        pathTransition.setCycleCount(1);
+        pathTransition.setAutoReverse(false);
+
+        final Cell a = currentCell;
+        final Cell b = emptyCell;
+        pathTransition.setOnFinished(actionEvent -> {
+            swapCell(a, b);
+            if (checkSolved()) {
+                state.onBoardSolved();
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (localBoard[p.getPosX()][p.getPosY() + 1].getPiece() == null) {
-                Board.board[p.getPosX()][p.getPosY() + 1].setPiece(p);
-                Board.board[p.getPosX()][p.getPosY()].setPiece(null);
-                p.setPos(p.getPosX(), p.getPosY() + 1);
-                this.cleanBoard();
-                checkAnswer();
-                return;
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (localBoard[p.getPosX() - 1][p.getPosY()].getPiece() == null) {
-                Board.board[p.getPosX() - 1][p.getPosY()].setPiece(p);
-                Board.board[p.getPosX()][p.getPosY()].setPiece(null);
-                p.setPos(p.getPosX() - 1, p.getPosY());
-                this.cleanBoard();
-                checkAnswer();
-                return;
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (localBoard[p.getPosX()][p.getPosY() - 1].getPiece() == null) {
-                Board.board[p.getPosX()][p.getPosY() - 1].setPiece(p);
-                Board.board[p.getPosX()][p.getPosY()].setPiece(null);
-                p.setPos(p.getPosX(), p.getPosY() - 1);
-                this.cleanBoard();
-                checkAnswer();
-                return;
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
+            ;
+        });
+
+        pathTransition.play();
     }
 
-    private void checkAnswer() {
-        Piece piece = null;
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-
-                piece = Board.board[i][j].getPiece();
-                if (piece == null)
-                    continue;
-
-                if (piece.getPosX() != piece.getSolutionPosX() || piece.getPosY() != piece.getSolutionPosY()) {
-                    return;
-                }
+    private boolean checkSolved() {
+        boolean allSolved = true;
+        for (Cell cell : cells) {
+            if (!cell.isSolved()) {
+                allSolved = false;
+                break;
             }
         }
-        System.out.println("Puzzle completed!");
+
+        System.out.println("Solved: " + allSolved);
+        return allSolved;
     }
 }

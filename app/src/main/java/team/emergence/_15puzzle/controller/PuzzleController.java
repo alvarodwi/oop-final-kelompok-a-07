@@ -10,10 +10,9 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import team.emergence._15puzzle.core.Board;
-import team.emergence._15puzzle.core.Cell;
-import team.emergence._15puzzle.core.Piece;
+import team.emergence._15puzzle.core.BoardState;
+import team.emergence._15puzzle.model.GameConfig;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -37,24 +36,33 @@ public class PuzzleController implements Initializable {
     private BorderPane container;
     private Board board;
 
-    public void start(WritableImage img, int level, WritableImage mini) {
-        ivSample.setImage(mini);
+    public void start(int difficulty, String imagePath) {
         if (board != null) {
             container.getChildren().remove(board);
         }
-        board = new Board(level, SwingFXUtils.fromFXImage(img,null));
+        board = new Board(
+                new GameConfig(difficulty, imagePath),
+
+                new BoardState() {
+                    @Override
+                    public void onBoardClicked() {
+                        // counter+1
+                    }
+
+                    @Override
+                    public void onBoardSolved() {
+                        System.out.println("Board is solved!");
+                    }
+                }
+        );
         container.getChildren().add(board);
+
+        //        ivSample.setImage(mini);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dimension = 3;
-        Image test = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/team/emergence/_15puzzle/drawable/img_sample1.png")),978,848,true,true);
-        start(
-                new WritableImage(test.getPixelReader(), 300, 300),
-                dimension,
-                new WritableImage(test.getPixelReader(), 150, 150)
-        );
+        start(4, "C:\\files\\code\\unpad\\s_iii\\prak_pbo\\oop-final-kelompok-a-07\\app\\src\\main\\resources\\team\\emergence\\_15puzzle\\drawable\\img_sample1.png");
     }
 
     @FXML
