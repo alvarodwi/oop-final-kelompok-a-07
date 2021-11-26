@@ -4,6 +4,7 @@ public class GameConfig {
     private int difficulty;
     private String filePath;
     private double tileSize;
+    private boolean isPaused = false;
 
     public GameConfig(int difficulty, String filePath) {
         this.difficulty = difficulty;
@@ -41,4 +42,13 @@ public class GameConfig {
     public void setTileSize(double tileSize) {
         this.tileSize = tileSize;
     }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
 }
+

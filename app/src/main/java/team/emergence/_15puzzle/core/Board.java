@@ -72,6 +72,7 @@ public class Board extends Pane {
 
             imageView.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                 moveCell((Node) mouseEvent.getSource());
+
             });
 
             imageView.relocate(cell.getLayoutX(), cell.getLayoutY());
@@ -103,6 +104,9 @@ public class Board extends Pane {
     }
 
     public void moveCell(Node node) {
+        if(config.isPaused())
+            return;
+
         Cell currentCell = cells.stream()
                 .filter(c -> c.getImageView() == node)
                 .findFirst()
@@ -140,6 +144,7 @@ public class Board extends Pane {
         final Cell b = emptyCell;
         pathTransition.setOnFinished(actionEvent -> {
             swapCell(a, b);
+            state.onBoardClicked();
             if (checkSolved()) {
                 state.onBoardSolved();
             }

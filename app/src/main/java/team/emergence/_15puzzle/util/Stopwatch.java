@@ -1,6 +1,7 @@
 package team.emergence._15puzzle.util;
 
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class Stopwatch {
     private final long nanoSecondsPerMillisecond = 1000000;
@@ -68,5 +69,14 @@ public class Stopwatch {
             elapsedTime = (stopWatchStopTime - stopWatchStartTime);
 
         return elapsedTime / nanoSecondsPerHour;
+    }
+
+    @Override
+    public String toString() {
+        long millis = this.getElapsedMilliseconds();
+        return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+                );
     }
 }

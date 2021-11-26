@@ -20,10 +20,10 @@
 
 | ID  | Title/Desc                       | Asignee | Status |
 | --- | -------------------------------- | ------- | ------ |
-| 1.2 | Implementasi Komponen Game Board | Alvaro  | Done  |
-| 1.3 | Implementasi Komponen Timer      | Ariq    | Done  |
-| 1.4 | Implementasi Komponen Counter    | Ariq    |        |
-| 1.5 | Implementasi Game Session        | Ariq    |        |
+| 1.2 | Implementasi Komponen Game Board | Alvaro  | Done   |
+| 1.3 | Implementasi Komponen Timer      | Ariq    | Done   |
+| 1.4 | Implementasi Komponen Counter    | Ariq    | Done   |
+| 1.5 | Implementasi Game Session        | Ariq    | Dome   |
 | 1.6 | Implementasi UI Launcher         | Rasyid  | Done   |
 | 2.1 | Implementasi UI Puzzle           | Rasyid  | Done   |
 | 2.2 | Implementasi Gameplay            | Alvaro  | Done   |
