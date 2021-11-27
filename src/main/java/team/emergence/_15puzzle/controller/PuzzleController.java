@@ -16,6 +16,7 @@ import team.emergence._15puzzle.core.BoardState;
 import team.emergence._15puzzle.model.GameConfig;
 import team.emergence._15puzzle.model.Session;
 import team.emergence._15puzzle.util.Helper;
+import team.emergence._15puzzle.util.Stopwatch;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -116,7 +117,9 @@ public class PuzzleController implements Initializable {
 
     @FXML
     private void onClickBtnReset() {
-        board.initializeBoard(); // reshuffle board
+        session.refresh();
+        txtMoveCount.setText("0");
+        board.initializeBoard();
     }
 
     @FXML

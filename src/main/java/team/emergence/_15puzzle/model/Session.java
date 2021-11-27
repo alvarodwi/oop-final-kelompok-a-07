@@ -5,8 +5,8 @@ import team.emergence._15puzzle.util.Stopwatch;
 
 public class Session {
     private final GameConfig config;
-    private final MoveCounter counter;
-    private final Stopwatch stopwatch;
+    private MoveCounter counter;
+    private Stopwatch stopwatch;
 
     public Session(int difficulty, String filepath) {
         this.config = new GameConfig(difficulty, filepath);
@@ -26,6 +26,12 @@ public class Session {
 
     public Stopwatch getStopwatch() {
         return stopwatch;
+    }
+
+    public void refresh(){
+        this.stopwatch = new Stopwatch();
+        this.counter = new MoveCounter();
+        stopwatch.start();
     }
 
     public void endSession() {
