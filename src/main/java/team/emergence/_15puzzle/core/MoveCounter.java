@@ -1,4 +1,4 @@
-package team.emergence._15puzzle.util;
+package team.emergence._15puzzle.core;
 
 public class MoveCounter {
     private int move;

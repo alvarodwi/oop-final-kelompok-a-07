@@ -12,8 +12,6 @@ repositories {
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
-    
-    implementation("com.gluonhq:charm:2.0.0")
 }
 
 application {

@@ -18,8 +18,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/Puzzle.fxml")));
         primaryStage.setTitle("15 Game");
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/Launcher.fxml")));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("app.css")).toExternalForm());
         primaryStage.setScene(scene);

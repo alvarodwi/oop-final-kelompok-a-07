@@ -13,8 +13,6 @@ import team.emergence._15puzzle.model.GameConfig;
 import team.emergence._15puzzle.util.animation.LineToAbs;
 import team.emergence._15puzzle.util.animation.MoveToAbs;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -22,6 +20,7 @@ public class Board extends Pane {
     private final GameConfig config;
     private final BoardState state;
     private final ArrayList<Cell> cells = new ArrayList<>();
+    private final ArrayList<Cell> initialCells = cells;
     private boolean isPaused = false;
 
 
@@ -68,6 +67,25 @@ public class Board extends Pane {
         shuffleCells();
 
         for (Cell cell : cells) {
+            Node imageView = cell.getImageView();
+
+            if (imageView == null)
+                continue;
+
+            imageView.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                moveCell((Node) mouseEvent.getSource());
+            });
+
+            imageView.relocate(cell.getLayoutX(), cell.getLayoutY());
+            this.getChildren().add(cell.getImageView());
+        }
+    }
+
+    public void restartBoard() {
+        this.getChildren().clear();
+
+        for (Cell cell : cells) {
+            System.out.println(cell + cell.getImageView().toString());
             Node imageView = cell.getImageView();
 
             if (imageView == null)

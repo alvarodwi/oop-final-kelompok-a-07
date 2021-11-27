@@ -1,4 +1,4 @@
-package team.emergence._15puzzle.util;
+package team.emergence._15puzzle.core;
 
 import java.util.concurrent.TimeUnit;
 

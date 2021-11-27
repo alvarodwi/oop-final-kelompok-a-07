@@ -55,6 +55,10 @@ public class Cell {
         return currentValue;
     }
 
+    public int getInitialValue() {
+        return initialValue;
+    }
+
     public void setValue(int value) {
         this.currentValue = value;
     }
@@ -67,7 +71,13 @@ public class Cell {
         return this.initialImageView == currentImageView;
     }
 
+    @Override
     public String toString() {
-        return "[" + x + "," + y + "]";
+        return "Cell{" +
+                "x=" + x +
+                ", y=" + y +
+                ", initialValue=" + initialValue +
+                ", currentValue=" + currentValue +
+                '}';
     }
 }

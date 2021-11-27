@@ -9,7 +9,6 @@
     src: url('font/EncodeSans-Bold.ttf');
 }
 
-.button {
+:root {
     -fx-font-family: 'Encode Sans';
-    -fx-font-weight: bold;
 }

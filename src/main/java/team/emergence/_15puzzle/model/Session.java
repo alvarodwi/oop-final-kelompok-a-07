@@ -1,15 +1,15 @@
 package team.emergence._15puzzle.model;
 
-import team.emergence._15puzzle.util.MoveCounter;
-import team.emergence._15puzzle.util.Stopwatch;
+import team.emergence._15puzzle.core.MoveCounter;
+import team.emergence._15puzzle.core.Stopwatch;
 
 public class Session {
     private final GameConfig config;
     private MoveCounter counter;
     private Stopwatch stopwatch;
 
-    public Session(int difficulty, String filepath) {
-        this.config = new GameConfig(difficulty, filepath);
+    public Session(GameConfig config) {
+        this.config = config;
         this.counter = new MoveCounter();
         this.stopwatch = new Stopwatch();
 

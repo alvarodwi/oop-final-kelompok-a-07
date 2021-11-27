@@ -29,5 +29,13 @@ public class GameConfig {
     public double getTileSize() {
         return tileSize;
     }
+
+    @Override
+    public String toString() {
+        return "GameConfig{" +
+                "difficulty=" + difficulty +
+                ", filePath='" + filePath + '\'' +
+                '}';
+    }
 }
 
