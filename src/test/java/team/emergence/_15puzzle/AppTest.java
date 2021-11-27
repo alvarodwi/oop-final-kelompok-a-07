@@ -3,9 +3,6 @@
  */
 package team.emergence._15puzzle;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 public class AppTest {
 
 }

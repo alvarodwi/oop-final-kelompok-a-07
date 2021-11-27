@@ -25,43 +25,41 @@ public class Stopwatch {
         this.isRunning = false;
     }
 
-    public void pause(){
+    public void pause() {
         this.pausedTime = System.nanoTime();
-        if(!isPausedOnce){
-            this.lastElapsedTime = lastElapsedTime + (pausedTime-startTime);
+        if (!isPausedOnce) {
+            this.lastElapsedTime = lastElapsedTime + (pausedTime - startTime);
         } else {
             this.lastElapsedTime = lastElapsedTime + (pausedTime - resumedTime);
         }
-        this.isPaused= true;
+        this.isPaused = true;
     }
 
-    public void resume(){
+    public void resume() {
         this.resumedTime = System.nanoTime();
         isPausedOnce = true;
-        this.isPaused= false;
+        this.isPaused = false;
     }
 
     public long getElapsedMilliseconds() {
         long elapsedTime;
 
-        if (isRunning){
-            if(isPaused){
-                if(!isPausedOnce){
+        if (isRunning) {
+            if (isPaused) {
+                if (!isPausedOnce) {
                     elapsedTime = pausedTime - startTime;
                 } else {
                     elapsedTime = lastElapsedTime;
                 }
-            }
-            else{
-                if(!isPausedOnce){
-                    elapsedTime = (pausedTime-startTime) + (System.nanoTime() - resumedTime);
+            } else {
+                if (!isPausedOnce) {
+                    elapsedTime = (pausedTime - startTime) + (System.nanoTime() - resumedTime);
                 } else {
                     elapsedTime = lastElapsedTime + (System.nanoTime() - resumedTime);
                 }
             }
 
-        }
-        else
+        } else
             elapsedTime = (stopTime - startTime);
 
         return elapsedTime / nanoSecondsPerMillisecond;

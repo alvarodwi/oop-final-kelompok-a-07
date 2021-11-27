@@ -55,12 +55,12 @@ public class Cell {
         return currentValue;
     }
 
-    public int getInitialValue() {
-        return initialValue;
-    }
-
     public void setValue(int value) {
         this.currentValue = value;
+    }
+
+    public int getInitialValue() {
+        return initialValue;
     }
 
     public boolean isEmpty() {

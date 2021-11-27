@@ -28,7 +28,7 @@ public class Session {
         return stopwatch;
     }
 
-    public void refresh(){
+    public void refresh() {
         this.stopwatch = new Stopwatch();
         this.counter = new MoveCounter();
         stopwatch.start();
