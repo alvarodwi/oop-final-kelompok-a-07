@@ -10,20 +10,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import team.emergence._15puzzle.model.GameConfig;
-import team.emergence._15puzzle.util.Constants;
 import team.emergence._15puzzle.util.animation.LineToAbs;
 import team.emergence._15puzzle.util.animation.MoveToAbs;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Board extends Pane {
     private final GameConfig config;
     private final BoardState state;
-    private final List<Cell> cells = new ArrayList<>();
+    private final ArrayList<Cell> cells = new ArrayList<>();
+    private boolean isPaused = false;
 
 
     public Board(GameConfig config, BoardState state) {
@@ -32,9 +31,16 @@ public class Board extends Pane {
         initializeBoard();
     }
 
-    private void initializeBoard() {
+    public void pauseBoard(Boolean isPaused) {
+        this.isPaused = isPaused;
+    }
+
+    public void initializeBoard() {
+        this.getChildren().clear();
+        cells.clear();
+
         int tileCount = config.getDifficulty();
-        Image image = null;
+        Image image;
         try {
             image = new Image(new FileInputStream(config.getFilePath()), 600, 600, false, true);
         } catch (FileNotFoundException e) {
@@ -56,15 +62,13 @@ public class Board extends Pane {
                 if (x == (tileCount - 1) && y == (tileCount - 1)) {
                     tile = null;
                 }
-
-                cells.add(new Cell(x, y, tile, config.getTileSize()));
+                cells.add(new Cell(x, y, tile, y * config.getDifficulty() + x , config.getDifficulty(), config.getTileSize()));
             }
         }
 
         shuffleCells();
 
-        for (int i = 0; i < cells.size(); i++) {
-            Cell cell = cells.get(i);
+        for (Cell cell : cells) {
             Node imageView = cell.getImageView();
 
             if (imageView == null)
@@ -72,7 +76,6 @@ public class Board extends Pane {
 
             imageView.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                 moveCell((Node) mouseEvent.getSource());
-
             });
 
             imageView.relocate(cell.getLayoutX(), cell.getLayoutY());
@@ -80,31 +83,80 @@ public class Board extends Pane {
         }
     }
 
-    public void shuffleCells() {
+    private void shuffleCells() {
         Random rand = new Random();
+        boolean shuffleDone;
 
-        for (int i = 0; i < 1000; i++) {
-            int a = rand.nextInt(cells.size());
-            int b = rand.nextInt(cells.size());
+        do{
+            for (int i = 0; i < 1000; i++) {
+                int a = rand.nextInt(cells.size());
+                int b = rand.nextInt(cells.size());
 
-            if (a == b)
-                continue;
+                if (a == b)
+                    continue;
 
-            if (cells.get(a).isEmpty() || cells.get(b).isEmpty())
-                continue;
+                if (cells.get(a).isEmpty() || cells.get(b).isEmpty())
+                    continue;
 
-            swapCell(cells.get(a), cells.get(b));
-        }
+                swapCell(cells.get(a), cells.get(b));
+            }
+
+            shuffleDone = isSolvable(config.getDifficulty()-1) && !this.checkSolved();
+        }while(!shuffleDone);
     }
 
     private void swapCell(Cell a, Cell b) {
-        ImageView tmp = a.getImageView();
+        int tmpValue = a.getValue();
+        a.setValue(b.getValue());
+        b.setValue(tmpValue);
+
+        ImageView tmpImg = a.getImageView();
         a.setImageView(b.getImageView());
-        b.setImageView(tmp);
+        b.setImageView(tmpImg);
+    }
+
+    private int countInversions(int x, int y) {
+        int inversions = 0;
+        int tileCount = config.getDifficulty();
+        int tileNum = y * tileCount + x;
+        int lastTile = tileCount * tileCount;
+        int tileValue = cells.get(tileNum).getValue();
+
+        for(int q = tileNum + 1; q < lastTile; ++q) {
+            int k = q % tileCount;
+            int l = q / tileCount;
+
+            int compTileNum = l * tileCount + k;
+            int compTileValue = cells.get(compTileNum).getValue();
+            if(tileValue > compTileValue && tileValue != (lastTile - 1)) {
+                ++inversions;
+            }
+        }
+        return inversions;
+    }
+
+    private int sumInversions() {
+        int inversions = 0;
+        for(int j = 0; j < config.getDifficulty(); ++j){
+            for(int i = 0; i < config.getDifficulty(); ++i){
+                inversions += countInversions(i,j);
+            }
+        }
+        return inversions;
+    }
+
+    private boolean isSolvable(int emptyRow) {
+        int tileCount = config.getDifficulty();
+        System.out.println("sumInversions : "+ sumInversions());
+        if(tileCount % 2 == 1) {
+            return (sumInversions() % 2 == 0);
+        }else {
+            return ((sumInversions() + tileCount - emptyRow) % 2 == 0);
+        }
     }
 
     public void moveCell(Node node) {
-        if(config.isPaused())
+        if (isPaused)
             return;
 
         Cell currentCell = cells.stream()
@@ -148,7 +200,6 @@ public class Board extends Pane {
             if (checkSolved()) {
                 state.onBoardSolved();
             }
-            ;
         });
 
         pathTransition.play();

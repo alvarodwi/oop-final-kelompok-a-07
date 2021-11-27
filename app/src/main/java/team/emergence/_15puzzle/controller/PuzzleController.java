@@ -4,14 +4,11 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -20,6 +17,10 @@ import team.emergence._15puzzle.core.BoardState;
 import team.emergence._15puzzle.model.GameConfig;
 import team.emergence._15puzzle.model.Session;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -38,6 +39,8 @@ public class PuzzleController implements Initializable {
     @FXML
     private Button btnReset;
     @FXML
+    private Button btnRestart;
+    @FXML
     private ImageView ivSample;
     @FXML
     private BorderPane container;
@@ -46,7 +49,7 @@ public class PuzzleController implements Initializable {
     public void start(int difficulty, String imagePath) {
         Session session = new Session(difficulty, imagePath);
         final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1),
-                (EventHandler) event -> txtTimer.setText(session.getStopwatch().toString())));
+                event -> txtTimer.setText(session.getStopwatch().toString())));
 
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -75,7 +78,14 @@ public class PuzzleController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        start(3, "E:\\sem 3\\@praktikum\\OOP\\Projekan akhir\\oop-final-kelompok-a-07\\app\\src\\main\\resources\\team\\emergence\\_15puzzle\\drawable\\img_sample1.png");
+        Image icReset = new Image("C:\\files\\code\\unpad\\s_iii\\prak_pbo\\oop-final-kelompok-a-07\\app\\src\\main\\resources\\team\\emergence\\_15puzzle\\drawable\\ic_reset.png", 36, 36, false, true);
+//        Image icReset = new Image("drawable/ic_reset.png", 36, 36, false, true);
+        btnReset.setGraphic(new ImageView(icReset));
+
+//        Image icRestart = new Image(Objects.requireNonNull(getClass().getResourceAsStream("drawable/ic_restart.png")), 36, 36, false, true);
+//        btnRestart.setGraphic(new ImageView(icRestart));
+
+        start(3, "C:\\files\\code\\unpad\\s_iii\\prak_pbo\\oop-final-kelompok-a-07\\app\\src\\main\\resources\\team\\emergence\\_15puzzle\\drawable\\img_sample1.png");
     }
 
     @FXML
@@ -85,11 +95,16 @@ public class PuzzleController implements Initializable {
 
     @FXML
     private void onClickBtnReset() {
-
+        board.initializeBoard(); // reshuffle board
     }
 
     @FXML
     private void onClickBtnBack() {
+
+    }
+
+    @FXML
+    private void onClickBtnRestart(){
 
     }
 }

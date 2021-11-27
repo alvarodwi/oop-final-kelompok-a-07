@@ -4,7 +4,6 @@ public class GameConfig {
     private int difficulty;
     private String filePath;
     private double tileSize;
-    private boolean isPaused = false;
 
     public GameConfig(int difficulty, String filePath) {
         this.difficulty = difficulty;
@@ -23,32 +22,12 @@ public class GameConfig {
         return difficulty;
     }
 
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public String getFilePath() {
         return filePath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
     public double getTileSize() {
         return tileSize;
-    }
-
-    public void setTileSize(double tileSize) {
-        this.tileSize = tileSize;
-    }
-
-    public void setPaused(boolean paused) {
-        isPaused = paused;
-    }
-
-    public boolean isPaused() {
-        return isPaused;
     }
 }
 

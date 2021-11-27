@@ -1,28 +1,30 @@
 package team.emergence._15puzzle.core;
 
 import javafx.scene.image.ImageView;
+import team.emergence._15puzzle.util.Constants;
 
 public class Cell {
     private final int x;
     private final int y;
-    private double offsetX;
-    private double offsetY;
-    private double tileSize;
+    private final double offsetX;
+    private final double offsetY;
+    private final double tileSize;
 
     private final ImageView initialImageView;
     private ImageView currentImageView;
+    private final int initialValue;
+    private int currentValue;
 
-    public Cell(int x, int y, ImageView initialImageView, double tileSize) {
+    public Cell(int x, int y, ImageView initialImageView,int initialValue, int tileCount, double tileSize) {
         this.x = x;
         this.y = y;
         this.initialImageView = initialImageView;
         this.currentImageView = initialImageView;
+        this.initialValue = initialValue;
+        this.currentValue = initialValue;
         this.tileSize = tileSize;
-    }
-
-    public void setOffset(double x, double y) {
-        this.offsetX = x;
-        this.offsetY = y;
+        this.offsetX = (Constants.SCENE_WIDTH - tileCount * tileSize) / 2;
+        this.offsetY = (Constants.SCENE_HEIGHT - tileCount * tileSize) / 2;
     }
 
     public int getX() {
@@ -48,6 +50,10 @@ public class Cell {
     public void setImageView(ImageView imageView) {
         this.currentImageView = imageView;
     }
+
+    public int getValue() { return currentValue; }
+
+    public void setValue(int value) { this.currentValue = value; }
 
     public boolean isEmpty() {
         return currentImageView == null;
