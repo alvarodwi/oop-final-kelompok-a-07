@@ -4,70 +4,67 @@ import java.util.concurrent.TimeUnit;
 
 public class Stopwatch {
     private final long nanoSecondsPerMillisecond = 1000000;
-    private final long nanoSecondsPerSecond = 1000000000;
-    private final long nanoSecondsPerMinute = 60000000000L;
-    private final long nanoSecondsPerHour = 3600000000000L;
 
-    private long stopWatchStartTime = 0;
-    private long stopWatchStopTime = 0;
-    private boolean stopWatchRunning = false;
+    private long startTime = 0;
+    private long stopTime = 0;
+    private long pausedTime = 0;
+    private long resumedTime = 0;
+    private long lastElapsedTime = 0;
+    private boolean isRunning = false;
+    private boolean isPaused = false;
+    private boolean isPausedOnce = false;
 
 
     public void start() {
-        this.stopWatchStartTime = System.nanoTime();
-        this.stopWatchRunning = true;
+        this.startTime = System.nanoTime();
+        this.isRunning = true;
     }
-
 
     public void stop() {
-        this.stopWatchStopTime = System.nanoTime();
-        this.stopWatchRunning = false;
+        this.stopTime = System.nanoTime();
+        this.isRunning = false;
     }
 
+    public void pause(){
+        this.pausedTime = System.nanoTime();
+        if(!isPausedOnce){
+            this.lastElapsedTime = lastElapsedTime + (pausedTime-startTime);
+        } else {
+            this.lastElapsedTime = lastElapsedTime + (pausedTime - resumedTime);
+        }
+        this.isPaused= true;
+    }
+
+    public void resume(){
+        this.resumedTime = System.nanoTime();
+        isPausedOnce = true;
+        this.isPaused= false;
+    }
 
     public long getElapsedMilliseconds() {
         long elapsedTime;
 
-        if (stopWatchRunning)
-            elapsedTime = (System.nanoTime() - stopWatchStartTime);
+        if (isRunning){
+            if(isPaused){
+                if(!isPausedOnce){
+                    elapsedTime = pausedTime - startTime;
+                } else {
+                    elapsedTime = lastElapsedTime;
+                }
+            }
+            else{
+                if(!isPausedOnce){
+                    elapsedTime = (pausedTime-startTime) + (System.nanoTime() - resumedTime);
+                } else {
+                    elapsedTime = lastElapsedTime + (System.nanoTime() - resumedTime);
+                }
+            }
+
+        }
         else
-            elapsedTime = (stopWatchStopTime - stopWatchStartTime);
+            elapsedTime = (stopTime - startTime);
 
         return elapsedTime / nanoSecondsPerMillisecond;
-    }
-
-
-    public long getElapsedSeconds() {
-        long elapsedTime;
-
-        if (stopWatchRunning)
-            elapsedTime = (System.nanoTime() - stopWatchStartTime);
-        else
-            elapsedTime = (stopWatchStopTime - stopWatchStartTime);
-
-        return elapsedTime / nanoSecondsPerSecond;
-    }
-
-
-    public long getElapsedMinutes() {
-        long elapsedTime;
-        if (stopWatchRunning)
-            elapsedTime = (System.nanoTime() - stopWatchStartTime);
-        else
-            elapsedTime = (stopWatchStopTime - stopWatchStartTime);
-
-        return elapsedTime / nanoSecondsPerMinute;
-    }
-
-
-    public long getElapsedHours() {
-        long elapsedTime;
-        if (stopWatchRunning)
-            elapsedTime = (System.nanoTime() - stopWatchStartTime);
-        else
-            elapsedTime = (stopWatchStopTime - stopWatchStartTime);
-
-        return elapsedTime / nanoSecondsPerHour;
     }
 
     @Override

@@ -35,18 +35,17 @@ public class Board extends Pane {
         this.isPaused = isPaused;
     }
 
+    public boolean isPaused() {
+        return isPaused;
+    }
+
     public void initializeBoard() {
         this.getChildren().clear();
         cells.clear();
 
         int tileCount = config.getDifficulty();
         Image image;
-        try {
-            image = new Image(new FileInputStream(config.getFilePath()), 600, 600, false, true);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        image = new Image(config.getFilePath(), 600, 600, false, true);
 
         for (int x = 0; x < tileCount; x++) {
             for (int y = 0; y < tileCount; y++) {

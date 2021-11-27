@@ -30,7 +30,8 @@
 | 2.3 | Implementasi Custom Image Loader | Alvaro  |        |
 | 2.4 | Menghubungkan Launcher ke Puzzle | Alvaro  |        |
 | 2.5 | Implementasi Reset Button        | Ariq    |        |
-| 2.6 | Implementasi Pause Button        | Ariq    |        |
+| 2.6 | Implementasi Pause Button        | Ariq    | Done   |
+| 2.7 | Implementasi Refresh Button      | Ariq    | Done   |
 
 ## Retrospective
 

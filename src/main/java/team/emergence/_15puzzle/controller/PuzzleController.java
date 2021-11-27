@@ -36,10 +36,11 @@ public class PuzzleController implements Initializable {
     @FXML
     private BorderPane container;
     private Board board;
+    private Session session;
 
     public void start(int difficulty, String imagePath) {
-        Session session = new Session(difficulty, imagePath);
-        final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1),
+        session = new Session(difficulty, imagePath);
+        final Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10),
                 event -> txtTimer.setText(session.getStopwatch().toString())));
 
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -81,7 +82,7 @@ public class PuzzleController implements Initializable {
         btnRestart.setGraphic(new ImageView(icRestart));
         toggleBtnAction(false);
 
-        start(2, "C:\\files\\code\\unpad\\s_iii\\prak_pbo\\oop-final-kelompok-a-07\\src\\main\\resources\\team\\emergence\\_15puzzle\\drawable\\img_sample1.png");
+        start(3, "file:///E:\\sem 3\\@praktikum\\OOP\\oop-final-kelompok-a-07\\src\\main\\resources\\team\\emergence\\_15puzzle\\drawable\\img_sample3.png");
     }
 
     private void toggleBtnAction(Boolean isPaused) {
@@ -102,7 +103,15 @@ public class PuzzleController implements Initializable {
 
     @FXML
     private void onClickBtnAction() {
-
+        if(!board.isPaused()){
+            toggleBtnAction(true);
+            board.pauseBoard(true);
+            session.getStopwatch().pause();
+        } else {
+            toggleBtnAction(false);
+            board.pauseBoard(false);
+            session.getStopwatch().resume();
+        }
     }
 
     @FXML
