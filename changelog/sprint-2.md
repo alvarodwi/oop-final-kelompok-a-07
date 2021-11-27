@@ -14,7 +14,7 @@
 
 | Planned (n) | Completed (n) |
 | ----------- | ------------- |
-| 11          | 5             |
+| 11          | 11             |
 
 ## Sprint 2 Backlog
 
@@ -27,9 +27,9 @@
 | 1.6 | Implementasi UI Launcher         | Rasyid  | Done   |
 | 2.1 | Implementasi UI Puzzle           | Rasyid  | Done   |
 | 2.2 | Implementasi Gameplay            | Alvaro  | Done   |
-| 2.3 | Implementasi Custom Image Loader | Alvaro  |        |
-| 2.4 | Menghubungkan Launcher ke Puzzle | Alvaro  |        |
-| 2.5 | Implementasi Reset Button        | Ariq    |        |
+| 2.3 | Implementasi Custom Image Loader | Alvaro  | Done   |
+| 2.4 | Menghubungkan Launcher ke Puzzle | Alvaro  | Done   |
+| 2.5 | Implementasi Reset Button        | Ariq    | Done   |
 | 2.6 | Implementasi Pause Button        | Ariq    | Done   |
 | 2.7 | Implementasi Refresh Button      | Ariq    | Done   |
 
