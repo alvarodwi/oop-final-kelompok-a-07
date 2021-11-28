@@ -14,6 +14,7 @@ import team.emergence._15puzzle.util.animation.LineToAbs;
 import team.emergence._15puzzle.util.animation.MoveToAbs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Board extends Pane {
@@ -21,12 +22,15 @@ public class Board extends Pane {
     private final BoardState state;
     private final ArrayList<Cell> cells = new ArrayList<>();
     private final ArrayList<Cell> initialCells = cells;
+    private final ArrayList<ImageView> puzzleImgs;
     private boolean isPaused = false;
 
 
     public Board(GameConfig config, BoardState state) {
         this.config = config;
         this.state = state;
+        int tileCount = (config.getDifficulty() * config.getDifficulty());
+        puzzleImgs = new ArrayList<>(Collections.nCopies(tileCount, null));
         initializeBoard();
     }
 
@@ -60,24 +64,29 @@ public class Board extends Pane {
                 if (x == (tileCount - 1) && y == (tileCount - 1)) {
                     tile = null;
                 }
-                cells.add(new Cell(x, y, tile, y * config.getDifficulty() + x, config.getDifficulty(), config.getTileSize()));
+
+                int pos = y * config.getDifficulty() + x;
+                puzzleImgs.set(pos, tile);
+                cells.add(new Cell(x, y, pos, config.getDifficulty(), config.getTileSize()));
+                System.out.printf("[%d,%d] with initialValue = %d\n", x, y, y * config.getDifficulty() + x);
             }
         }
 
         shuffleCells();
 
         for (Cell cell : cells) {
-            Node imageView = cell.getImageView();
+            Node imageView = puzzleImgs.get(cell.getValue());
 
             if (imageView == null)
                 continue;
 
-            imageView.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                moveCell((Node) mouseEvent.getSource());
-            });
+            imageView.addEventFilter(
+                    MouseEvent.MOUSE_CLICKED,
+                    mouseEvent -> moveCell((Node) mouseEvent.getSource())
+            );
 
             imageView.relocate(cell.getLayoutX(), cell.getLayoutY());
-            this.getChildren().add(cell.getImageView());
+            this.getChildren().add(imageView);
         }
     }
 
@@ -85,18 +94,18 @@ public class Board extends Pane {
         this.getChildren().clear();
 
         for (Cell cell : cells) {
-            System.out.println(cell + cell.getImageView().toString());
-            Node imageView = cell.getImageView();
+            Node imageView = puzzleImgs.get(cell.getValue());
 
             if (imageView == null)
                 continue;
 
-            imageView.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                moveCell((Node) mouseEvent.getSource());
-            });
+            imageView.addEventFilter(
+                    MouseEvent.MOUSE_CLICKED,
+                    mouseEvent -> moveCell((Node) mouseEvent.getSource())
+            );
 
             imageView.relocate(cell.getLayoutX(), cell.getLayoutY());
-            this.getChildren().add(cell.getImageView());
+            this.getChildren().add(imageView);
         }
     }
 
@@ -112,7 +121,8 @@ public class Board extends Pane {
                 if (a == b)
                     continue;
 
-                if (cells.get(a).isEmpty() || cells.get(b).isEmpty())
+                int emptyCellIndex = puzzleImgs.indexOf(null);
+                if (a == emptyCellIndex || b == emptyCellIndex)
                     continue;
 
                 swapCell(cells.get(a), cells.get(b));
@@ -126,10 +136,6 @@ public class Board extends Pane {
         int tmpValue = a.getValue();
         a.setValue(b.getValue());
         b.setValue(tmpValue);
-
-        ImageView tmpImg = a.getImageView();
-        a.setImageView(b.getImageView());
-        b.setImageView(tmpImg);
     }
 
     private int countInversions(int x, int y) {
@@ -176,20 +182,26 @@ public class Board extends Pane {
         if (isPaused)
             return;
 
+        int currentCellIndex = puzzleImgs.indexOf((ImageView) node);
+        int emptyCellIndex = puzzleImgs.indexOf(null);
+        System.out.println(currentCellIndex);
+
         Cell currentCell = cells.stream()
-                .filter(c -> c.getImageView() == node)
+                .filter(c -> c.getValue() == currentCellIndex)
                 .findFirst()
                 .orElse(null);
 
         Cell emptyCell = cells.stream()
-                .filter(Cell::isEmpty)
+                .filter(c -> c.getValue() == emptyCellIndex)
                 .findFirst()
                 .orElse(null);
 
         if (currentCell == null || emptyCell == null)
             return;
 
+        System.out.printf("[%d,%d] -> current || [%d,%d] -> empty\n", currentCell.getX(), currentCell.getY(), emptyCell.getX(), emptyCell.getY());
         int steps = Math.abs(currentCell.getX() - emptyCell.getX()) + Math.abs(currentCell.getY() - emptyCell.getY());
+        System.out.println("Steps is " + steps);
         if (steps != 1)
             return;
 
@@ -197,13 +209,13 @@ public class Board extends Pane {
 
         Path path = new Path();
         path.getElements()
-                .add(new MoveToAbs(currentCell.getImageView(), currentCell.getLayoutX(), currentCell.getLayoutY()));
+                .add(new MoveToAbs(puzzleImgs.get(currentCell.getValue()), currentCell.getLayoutX(), currentCell.getLayoutY()));
         path.getElements()
-                .add(new LineToAbs(currentCell.getImageView(), emptyCell.getLayoutX(), emptyCell.getLayoutY()));
+                .add(new LineToAbs(puzzleImgs.get(currentCell.getValue()), emptyCell.getLayoutX(), emptyCell.getLayoutY()));
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(100));
-        pathTransition.setNode(currentCell.getImageView());
+        pathTransition.setNode(puzzleImgs.get(currentCell.getValue()));
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.NONE);
         pathTransition.setCycleCount(1);
