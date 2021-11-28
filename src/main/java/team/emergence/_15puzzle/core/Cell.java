@@ -1,9 +1,8 @@
 package team.emergence._15puzzle.core;
 
-import javafx.scene.image.ImageView;
 import team.emergence._15puzzle.util.Constants;
 
-public class Cell {
+public class Cell implements Cloneable {
     private final int x;
     private final int y;
     private final double offsetX;
@@ -53,11 +52,11 @@ public class Cell {
 
     @Override
     public String toString() {
-        return "Cell{" +
-                "x=" + x +
-                ", y=" + y +
-                ", initialValue=" + initialValue +
-                ", currentValue=" + currentValue +
-                '}';
+        return String.format("[%d,%d] with value=%d\noffsetX=%f; offsetY=%f; initialValue=%d", x, y, currentValue, offsetX, offsetY, initialValue);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

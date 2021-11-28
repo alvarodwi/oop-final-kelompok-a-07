@@ -15,14 +15,16 @@ import team.emergence._15puzzle.util.animation.MoveToAbs;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Board extends Pane {
     private final GameConfig config;
     private final BoardState state;
-    private final ArrayList<Cell> cells = new ArrayList<>();
-    private final ArrayList<Cell> initialCells = cells;
-    private final ArrayList<ImageView> puzzleImgs;
+    private final ArrayList<ImageView> puzzleImages;
+    private CopyOnWriteArrayList<Cell> cells = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<Cell> initialCells = new CopyOnWriteArrayList<>();
     private boolean isPaused = false;
 
 
@@ -30,7 +32,7 @@ public class Board extends Pane {
         this.config = config;
         this.state = state;
         int tileCount = (config.getDifficulty() * config.getDifficulty());
-        puzzleImgs = new ArrayList<>(Collections.nCopies(tileCount, null));
+        puzzleImages = new ArrayList<>(Collections.nCopies(tileCount, null));
         initializeBoard();
     }
 
@@ -44,11 +46,11 @@ public class Board extends Pane {
 
     public void initializeBoard() {
         this.getChildren().clear();
+        initialCells.clear();
         cells.clear();
 
         int tileCount = config.getDifficulty();
-        Image image;
-        image = new Image(config.getFilePath(), 600, 600, false, true);
+        Image image = new Image(config.getFilePath(), 600, 600, false, true);
 
         for (int x = 0; x < tileCount; x++) {
             for (int y = 0; y < tileCount; y++) {
@@ -66,16 +68,15 @@ public class Board extends Pane {
                 }
 
                 int pos = y * config.getDifficulty() + x;
-                puzzleImgs.set(pos, tile);
+                puzzleImages.set(pos, tile);
                 cells.add(new Cell(x, y, pos, config.getDifficulty(), config.getTileSize()));
-                System.out.printf("[%d,%d] with initialValue = %d\n", x, y, y * config.getDifficulty() + x);
             }
         }
 
         shuffleCells();
 
         for (Cell cell : cells) {
-            Node imageView = puzzleImgs.get(cell.getValue());
+            Node imageView = puzzleImages.get(cell.getValue());
 
             if (imageView == null)
                 continue;
@@ -88,16 +89,57 @@ public class Board extends Pane {
             imageView.relocate(cell.getLayoutX(), cell.getLayoutY());
             this.getChildren().add(imageView);
         }
+
+        try {
+            for (Cell cell : cells) {
+                initialCells.add((Cell) cell.clone());
+            }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void restartBoard() {
         this.getChildren().clear();
 
-        for (Cell cell : cells) {
-            Node imageView = puzzleImgs.get(cell.getValue());
+        int tileCount = config.getDifficulty();
+        Image image = new Image(config.getFilePath(), 600, 600, false, true);
 
-            if (imageView == null)
-                continue;
+        for (int x = 0; x < tileCount; x++) {
+            for (int y = 0; y < tileCount; y++) {
+                ImageView tile = new ImageView(image);
+                Rectangle2D rect = new Rectangle2D(
+                        config.getTileSize() * x,
+                        config.getTileSize() * y,
+                        config.getTileSize(),
+                        config.getTileSize()
+                );
+                tile.setViewport(rect);
+
+                if (x == (tileCount - 1) && y == (tileCount - 1)) {
+                    tile = null;
+                }
+
+                int pos = y * config.getDifficulty() + x;
+                puzzleImages.set(pos, tile);
+                cells.add(new Cell(x, y, pos, config.getDifficulty(), config.getTileSize()));
+            }
+        }
+
+        cells = new CopyOnWriteArrayList<>();
+        try {
+            for (Cell initialCell : initialCells) {
+                cells.add((Cell) initialCell.clone());
+            }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        for (Cell cell : cells) {
+            Node imageView = puzzleImages.get(cell.getValue());
+
+            if(imageView == null)
+                return;
 
             imageView.addEventFilter(
                     MouseEvent.MOUSE_CLICKED,
@@ -121,7 +163,7 @@ public class Board extends Pane {
                 if (a == b)
                     continue;
 
-                int emptyCellIndex = puzzleImgs.indexOf(null);
+                int emptyCellIndex = puzzleImages.indexOf(null);
                 if (a == emptyCellIndex || b == emptyCellIndex)
                     continue;
 
@@ -182,8 +224,8 @@ public class Board extends Pane {
         if (isPaused)
             return;
 
-        int currentCellIndex = puzzleImgs.indexOf((ImageView) node);
-        int emptyCellIndex = puzzleImgs.indexOf(null);
+        int currentCellIndex = puzzleImages.indexOf((ImageView) node);
+        int emptyCellIndex = puzzleImages.indexOf(null);
         System.out.println(currentCellIndex);
 
         Cell currentCell = cells.stream()
@@ -209,13 +251,13 @@ public class Board extends Pane {
 
         Path path = new Path();
         path.getElements()
-                .add(new MoveToAbs(puzzleImgs.get(currentCell.getValue()), currentCell.getLayoutX(), currentCell.getLayoutY()));
+                .add(new MoveToAbs(puzzleImages.get(currentCell.getValue()), currentCell.getLayoutX(), currentCell.getLayoutY()));
         path.getElements()
-                .add(new LineToAbs(puzzleImgs.get(currentCell.getValue()), emptyCell.getLayoutX(), emptyCell.getLayoutY()));
+                .add(new LineToAbs(puzzleImages.get(currentCell.getValue()), emptyCell.getLayoutX(), emptyCell.getLayoutY()));
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(100));
-        pathTransition.setNode(puzzleImgs.get(currentCell.getValue()));
+        pathTransition.setNode(puzzleImages.get(currentCell.getValue()));
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.NONE);
         pathTransition.setCycleCount(1);
