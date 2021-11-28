@@ -93,9 +93,9 @@ public class LauncherController implements Initializable {
     }
 
     private void setSelectedImage(String path) {
-        System.out.println(path);
+        System.out.println("file:///"+path);
         Image img = new Image("file:///" + path, 600, 600, false, true);
-        filePath = path;
+        filePath = "file:///" + path;
         ivPreview.setImage(img);
     }
 

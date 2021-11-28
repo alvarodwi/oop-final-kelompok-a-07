@@ -4,12 +4,16 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import team.emergence._15puzzle.core.Board;
 import team.emergence._15puzzle.core.BoardState;
@@ -17,6 +21,7 @@ import team.emergence._15puzzle.model.GameConfig;
 import team.emergence._15puzzle.model.Session;
 import team.emergence._15puzzle.util.ResourceLoader;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -31,6 +36,8 @@ public class PuzzleController implements Initializable {
     private Button btnReset;
     @FXML
     private Button btnRestart;
+    @FXML
+    private Button btnBack;
     @FXML
     private ImageView ivSample;
     @FXML
@@ -123,7 +130,23 @@ public class PuzzleController implements Initializable {
 
     @FXML
     private void onClickBtnBack() {
+        moveToLauncher();
+    }
 
+    private void moveToLauncher() {
+        Stage stage = (Stage) btnBack.getScene().getWindow();
+        stage.close();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(ResourceLoader.loadResourceURL("team/emergence/_15puzzle/fxml/Launcher.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
