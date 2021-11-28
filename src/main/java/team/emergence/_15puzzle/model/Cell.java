@@ -1,4 +1,4 @@
-package team.emergence._15puzzle.core;
+package team.emergence._15puzzle.model;
 
 import team.emergence._15puzzle.util.Constants;
 
@@ -56,7 +56,7 @@ public class Cell implements Cloneable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }

@@ -9,13 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import team.emergence._15puzzle.model.Cell;
 import team.emergence._15puzzle.model.GameConfig;
 import team.emergence._15puzzle.util.animation.LineToAbs;
 import team.emergence._15puzzle.util.animation.MoveToAbs;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -23,8 +23,8 @@ public class Board extends Pane {
     private final GameConfig config;
     private final BoardState state;
     private final ArrayList<ImageView> puzzleImages;
-    private CopyOnWriteArrayList<Cell> cells = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Cell> initialCells = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<Cell> cells = new CopyOnWriteArrayList<>();
     private boolean isPaused = false;
 
 
@@ -138,7 +138,7 @@ public class Board extends Pane {
         for (Cell cell : cells) {
             Node imageView = puzzleImages.get(cell.getValue());
 
-            if(imageView == null)
+            if (imageView == null)
                 return;
 
             imageView.addEventFilter(

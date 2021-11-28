@@ -124,6 +124,7 @@ public class PuzzleController implements Initializable {
     private void onClickBtnReset() {
         session.refresh();
         txtMoveCount.setText("0");
+        board.pauseBoard(false);
         toggleBtnAction(false);
         board.initializeBoard();
     }
@@ -154,6 +155,7 @@ public class PuzzleController implements Initializable {
         session.refresh();
         txtMoveCount.setText("0");
         toggleBtnAction(false);
+        board.pauseBoard(false);
         board.restartBoard();
     }
 }

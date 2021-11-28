@@ -5,9 +5,6 @@ plugins {
 
 repositories {
     mavenCentral()
-
-    jcenter()
-    maven("https://nexus.gluonhq.com/nexus/content/repositories/releases/")
 }
 
 dependencies {

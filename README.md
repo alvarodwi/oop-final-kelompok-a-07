@@ -8,7 +8,7 @@ This repository is a final project (Java GUI) from Object-Oriented Programming C
 
 15 Puzzle adalah sebuah game sliding puzzle yang terdiri dari beberapa tile bernomor yang tersusun secara acak. Terdapat 1 tile yang hilang sebagai space untuk menggeser tiles bernomor. Game ini bertujuan untuk menyusun tile bernomor acak menjadi berurutan.
 
-Ukuran puzzle ini 4x4 dengan 1 tile kosong sehingga berjumlah 15 sehingga disebut puzzle 15. Selain itu ada beberapa variasi lain seperti 8 Puzzle yang merupakan versi 3x3 dari 15 Puzzle.
+Ukuran puzzle ini 4x4 dengan 1 tile kosong sehingga berjumlah 15 sehingga disebut 15 Puzzle. Selain itu ada variasi lain seperti 8 Puzzle yang merupakan versi 3x3 dari 15 Puzzle.
 
 ## Credits
 
@@ -57,7 +57,7 @@ Aplikasi kami dapat dijalankan dengan cara berikut :
 gradlew run
 ```
 
-Ketika dijalankan seperti ini, puzzle akan menampilkan window Launcher untuk player melakukan konfigurasi puzzle.
+Ketika dijalankan seperti ini, puzzle akan menampilkan window Launcher untuk konfigurasi puzzle.
 
 ## Classes Used
 
@@ -108,7 +108,7 @@ Berisi class untuk menyimpan data dalam aplikasi
 
   Model untuk menyimpan data saat puzzle berjalan, berisi MoveCounter, Stopwatch, dam GameConfig yang digunakan untuk menjalankan puzzle.
 
-- 3.3. **Cell** - [`Cell.java`](src/main/java/team/emergence/_15puzzle/core/Cell.java)
+- 3.3. **Cell** - [`Cell.java`](src/main/java/team/emergence/_15puzzle/model/Cell.java)
 
   Komponen model untuk game slider, didalamnya berisi koordinat dari kepingan puzzle yang bisa digeser serta data posisi asli dari kepingan tersebut.
 
@@ -138,11 +138,11 @@ Berisi class untuk menyimpan data dalam aplikasi
 
   Class main, implementasi javafx.Application. Digunakan untuk memanggil Launcher
 
-- 3.2. **Launcher.fxml** - [`Launcher.fxml`](src/main/resources/team/emergence/_15puzzle/fxml/Launcher.fxml)
+- 5.2. **Launcher.fxml** - [`Launcher.fxml`](src/main/resources/team/emergence/_15puzzle/fxml/Launcher.fxml)
 
   UI dari Launcher, dibuat menggunakan Gluon Scene Builder.
 
-- 3.3. **Puzzle.fxml** - [`Puzzle.fxml`](src/main/resources/team/emergence/_15puzzle/fxml/Puzzle.fxml)
+- 5.3. **Puzzle.fxml** - [`Puzzle.fxml`](src/main/resources/team/emergence/_15puzzle/fxml/Puzzle.fxml)
 
   UI dari Puzzle, dibuat menggunakan Gluon Scene Builder.
 
@@ -150,16 +150,19 @@ UML image here
 
 ## Notable Assumption and Design App Details
 
+### Desain Aplikasi
 - Ada 2 window dalam aplikasi ini, yaitu Launcher dan Puzzle
   - Window Launcher berisi konfigurasi game yaitu memilih tingkat kesulitan atau jumlah grid serta memilih gambar yang akan dimainkan
   - Window Puzzle berisi tampilan Puzzle
-- Rekomendasi kesulitan game adalah 3x3, 4x4, dan 5x5.
-- Gambar preset disediakan 3 jenis gambar tetapi user bisa memasukkan gambar custom secara manual dengan memilih 'Import Image'.
-- Gambar custom akan di stretch untuk dijadikan bentuk persegi.
 - Resolusi PuzzleGrid paling optimal untuk penggunaan 2 argumen adalah 1280x720.
-- Game memiliki fitur **move counter** dan **timer** sebagai tambahan.
+- Rekomendasi kesulitan game adalah 3x3, 4x4, dan 5x5.
+
+### Fitur Aplikasi
+- Gambar preset disediakan 3 jenis gambar tetapi user bisa memasukkan gambar custom secara manual dengan memilih 'Import Image'.
+  - Gambar custom akan di stretch untuk dijadikan bentuk persegi.
+- Game memiliki fitur **move counter** dan **timer**.
 - Ketika puzzle dimainkan, akan ada **example** yang merupakan hasil akhir ketika puzzle tersusun dengan rapih.
-- Jika ingin mengganti mode, user tinggal menekan tombol 'Back to Menu' dan memilih kembali mode yang ingin dimainkan.
+- Jika ingin mengganti mode, user tinggal menekan tombol **Back to Menu** dan memilih kembali mode yang ingin dimainkan.
 - Terdapat tombol **Reset** yang dapat digunakan untuk mengulang puzzle yang sama.
 - Terdapat tombol **Refresh** yang dapat digunakan untuk mengacak puzzle.
-- Terdapat tombol **Pause** yang dapat digunakan untuk menghentikan puzzle sementara. Saat di **pause**, player tidak bisa menggerakan puzzle dan timer berhenti sementara.
+- Terdapat tombol **Pause** yang dapat digunakan untuk menghentikan puzzle sementara. Saat di *pause*, player tidak bisa menggerakan puzzle dan timer berhenti sementara.
