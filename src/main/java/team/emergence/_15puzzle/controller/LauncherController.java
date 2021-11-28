@@ -158,5 +158,7 @@ public class LauncherController implements Initializable {
         btnImg1.setGraphic(new ImageView(sample1));
         btnImg2.setGraphic(new ImageView(sample2));
         btnImg3.setGraphic(new ImageView(sample3));
+
+        onClickBtnImg1();
     }
 }
