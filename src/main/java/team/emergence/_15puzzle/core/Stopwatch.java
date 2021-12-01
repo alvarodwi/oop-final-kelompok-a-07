@@ -21,7 +21,7 @@ public class Stopwatch {
     }
 
     public void stop() {
-        this.stopTime = System.nanoTime();
+        this.stopTime = lastElapsedTime;
         this.isRunning = false;
     }
 

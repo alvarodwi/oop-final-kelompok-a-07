@@ -35,6 +35,6 @@ public class Session {
     }
 
     public void endSession() {
-        stopwatch.stop();
+        stopwatch.pause();
     }
 }

@@ -120,7 +120,7 @@ public class LauncherController implements Initializable {
     }
 
     private void moveToPuzzle() {
-        config = new GameConfig(difficulty, filePath);
+        config = new GameConfig(2, filePath);
         Stage stage = (Stage) btnStart.getScene().getWindow();
         stage.close();
 

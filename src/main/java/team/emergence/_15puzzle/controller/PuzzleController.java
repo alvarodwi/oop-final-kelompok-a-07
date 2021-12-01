@@ -67,7 +67,8 @@ public class PuzzleController implements Initializable {
 
                     @Override
                     public void onBoardSolved() {
-                        System.out.println("Board is solved!");
+                        session.endSession();
+                        moveToResult();
                     }
                 }
         );
@@ -75,6 +76,25 @@ public class PuzzleController implements Initializable {
 
         Image mini = new Image(config.getFilePath(), 150, 150, false, true);
         ivSample.setImage(mini);
+    }
+
+    private void moveToResult() {
+        Stage stage = (Stage) btnBack.getScene().getWindow();
+        stage.close();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(ResourceLoader.loadResourceURL("team/emergence/_15puzzle/fxml/Result.fxml"));
+            Parent root = loader.load();
+
+            ResultController controller = loader.getController();
+            controller.setResult(session.getStopwatch().toString(),String.valueOf(session.getCounter().getMove()));
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
