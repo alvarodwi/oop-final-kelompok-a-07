@@ -13,7 +13,6 @@ public class Cell implements Cloneable {
     private int currentValue;
 
     public Cell(int x, int y, int initialValue, int tileCount, double tileSize) {
-        System.out.printf("Created cell with [%d,%d] with value of %d\n",x ,y,initialValue);
         this.x = x;
         this.y = y;
         this.initialValue = initialValue;

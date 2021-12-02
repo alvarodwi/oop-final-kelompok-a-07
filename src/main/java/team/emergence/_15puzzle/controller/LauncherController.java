@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,6 +40,7 @@ public class LauncherController implements Initializable {
 
     private int difficulty;
     private String filePath;
+    private boolean useSample;
     private List<String> parameters;
 
     public void setParameters(Application.Parameters params) {
@@ -79,15 +79,8 @@ public class LauncherController implements Initializable {
             case 3 -> "team/emergence/_15puzzle/drawable/img_sample3.png";
             default -> "team/emergence/_15puzzle/drawable/img_sample1.png";
         };
-
-        File target;
-        try {
-            target = Paths.get(ResourceLoader.loadResourceURL(path).toURI()).toFile();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return;
-        }
-        setSelectedImage(target.getAbsolutePath());
+        useSample = true;
+        setSelectedImage(path);
     }
 
     @FXML
@@ -96,8 +89,14 @@ public class LauncherController implements Initializable {
     }
 
     private void setSelectedImage(String path) {
-        filePath = "file:///" + path;
-        Image img = new Image(filePath, 600, 600, false, true);
+        Image img;
+        if(useSample) {
+            filePath = path;
+            img = new Image(ResourceLoader.loadResource(path),600,600,false,true);
+        }else {
+            filePath = "file:///" + path;
+            img = new Image(filePath, 600, 600, false, true);
+        }
         ivPreview.setImage(img);
     }
 
@@ -118,12 +117,13 @@ public class LauncherController implements Initializable {
         fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
 
         //Show open file dialog
+        useSample = false;
         File file = fileChooser.showOpenDialog(null);
         setSelectedImage(file.getAbsolutePath());
     }
 
     private void moveToPuzzle() {
-        GameConfig config = new GameConfig(difficulty, filePath);
+        GameConfig config = new GameConfig(difficulty, filePath, useSample);
         Stage stage = (Stage) btnStart.getScene().getWindow();
         stage.close();
 
@@ -146,16 +146,20 @@ public class LauncherController implements Initializable {
     private void setupLauncher() {
         difficulty = 3;
         filePath = "";
+        useSample = true;
 
-        if(!parameters.isEmpty()) {
+        if (!parameters.isEmpty()) {
             difficulty = Integer.parseInt(parameters.get(0));
 
-            if(parameters.size() > 1) {
+            if (parameters.size() > 1) {
                 filePath = parameters.get(1);
+                switch (filePath) {
+                    case "sample1", "sample2", "sample3" -> useSample = true;
+                }
             }
         }
 
-        if(difficulty < 2 || difficulty > 10) {
+        if (difficulty < 2 || difficulty > 10) {
             throw new IllegalStateException("Puzzle grid < 2 atau > 10");
         }
 
@@ -176,9 +180,9 @@ public class LauncherController implements Initializable {
         btnImg2.setGraphic(new ImageView(sample2));
         btnImg3.setGraphic(new ImageView(sample3));
 
-        if(filePath == null || filePath.isEmpty()) {
+        if (filePath == null || filePath.isEmpty()) {
             onClickBtnImg1();
-        }else {
+        } else {
             setSelectedImage(filePath);
         }
     }

@@ -3,18 +3,13 @@ package team.emergence._15puzzle.model;
 public class GameConfig {
     private final int difficulty;
     private final String filePath;
-    private double tileSize;
+    private final boolean useSample;
+    private final double tileSize;
 
-    public GameConfig(int difficulty, String filePath) {
+    public GameConfig(int difficulty, String filePath, boolean useSample) {
         this.difficulty = difficulty;
         this.filePath = filePath;
-        this.tileSize = 600.0 / difficulty;
-    }
-
-    public GameConfig(int difficulty, String filePath, double tileSize) {
-        this.difficulty = difficulty;
-        this.filePath = filePath;
-        this.tileSize = tileSize;
+        this.useSample = useSample;
         this.tileSize = 600.0 / difficulty;
     }
 
@@ -32,10 +27,7 @@ public class GameConfig {
 
     @Override
     public String toString() {
-        return "GameConfig{" +
-                "difficulty=" + difficulty +
-                ", filePath='" + filePath + '\'' +
-                '}';
+        return String.format("diff > %d\npath > %s\n", difficulty,filePath);
     }
 }
 

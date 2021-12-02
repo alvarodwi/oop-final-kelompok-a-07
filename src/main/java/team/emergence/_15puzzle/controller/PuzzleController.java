@@ -53,7 +53,7 @@ public class PuzzleController implements Initializable {
 
     public void start(GameConfig config) {
         session = new Session(config);
-        System.out.println("Started a game with config : " + session.getConfig());
+        System.out.println("Started a game with config : \n" + session.getConfig());
         final Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10),
                 event -> txtTimer.setText(session.getStopwatch().toString())));
 
