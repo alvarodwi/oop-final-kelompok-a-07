@@ -23,6 +23,7 @@ import team.emergence._15puzzle.util.ResourceLoader;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PuzzleController implements Initializable {
@@ -44,6 +45,11 @@ public class PuzzleController implements Initializable {
     private BorderPane container;
     private Board board;
     private Session session;
+    private List<String> parameters;
+
+    public void setParameters(List<String> params) {
+        this.parameters = params;
+    }
 
     public void start(GameConfig config) {
         session = new Session(config);
@@ -88,6 +94,7 @@ public class PuzzleController implements Initializable {
 
             ResultController controller = loader.getController();
             controller.setResult(session.getStopwatch().toString(),String.valueOf(session.getCounter().getMove()));
+            controller.setParameters(parameters);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -161,6 +168,9 @@ public class PuzzleController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(ResourceLoader.loadResourceURL("team/emergence/_15puzzle/fxml/Launcher.fxml"));
             Parent root = loader.load();
+
+            LauncherController controller = loader.getController();
+            controller.setParameters(parameters);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);

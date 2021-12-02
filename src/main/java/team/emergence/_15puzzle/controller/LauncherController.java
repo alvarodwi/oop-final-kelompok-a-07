@@ -1,5 +1,6 @@
 package team.emergence._15puzzle.controller;
 
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LauncherController implements Initializable {
@@ -38,15 +41,16 @@ public class LauncherController implements Initializable {
 
     private int difficulty;
     private String filePath;
+    private List<String> parameters;
 
-    public LauncherController() {
-        difficulty = 3;
-        filePath = "";
+    public void setParameters(Application.Parameters params) {
+        parameters = params.getRaw();
+        setupLauncher();
     }
 
-    public LauncherController(int difficulty, String filePath) {
-        this.difficulty = difficulty;
-        this.filePath = filePath;
+    public void setParameters(List<String> params) {
+        this.parameters = params;
+        setupLauncher();
     }
 
     @FXML
@@ -129,6 +133,7 @@ public class LauncherController implements Initializable {
 
             PuzzleController controller = loader.getController();
             controller.start(config);
+            controller.setParameters(parameters);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -138,10 +143,24 @@ public class LauncherController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        if (difficulty > 5) {
-            cmbDiff.setPromptText(String.format("Custom ( %1$dx%1$d", difficulty));
+    private void setupLauncher() {
+        difficulty = 3;
+        filePath = "";
+
+        if(!parameters.isEmpty()) {
+            difficulty = Integer.parseInt(parameters.get(0));
+
+            if(parameters.size() > 1) {
+                filePath = parameters.get(1);
+            }
+        }
+
+        if(difficulty < 2 || difficulty > 10) {
+            throw new IllegalStateException("Puzzle grid < 2 atau > 10");
+        }
+
+        if (difficulty > 5 || difficulty < 3) {
+            cmbDiff.setPromptText(String.format("Custom ( %1$dx%1$d )", difficulty));
         }
         String[] difficulties = {"Easy ( 3x3 )", "Normal ( 4x4 )", "Hard ( 5x5 )"};
         cmbDiff.setItems(FXCollections.observableArrayList(difficulties));
@@ -157,6 +176,15 @@ public class LauncherController implements Initializable {
         btnImg2.setGraphic(new ImageView(sample2));
         btnImg3.setGraphic(new ImageView(sample3));
 
-        onClickBtnImg1();
+        if(filePath == null || filePath.isEmpty()) {
+            onClickBtnImg1();
+        }else {
+            setSelectedImage(filePath);
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // do nothing
     }
 }

@@ -12,6 +12,7 @@ import team.emergence._15puzzle.util.ResourceLoader;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ResultController implements Initializable{ 
@@ -21,6 +22,11 @@ public class ResultController implements Initializable{
     private Text txtMoveCount;
     @FXML
     private Text txtTimer;
+    private List<String> parameters;
+
+    public void setParameters(List<String> params) {
+        this.parameters = params;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,6 +50,9 @@ public class ResultController implements Initializable{
         try {
             FXMLLoader loader = new FXMLLoader(ResourceLoader.loadResourceURL("team/emergence/_15puzzle/fxml/Launcher.fxml"));
             Parent root = loader.load();
+
+            LauncherController controller = loader.getController();
+            controller.setParameters(parameters);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
