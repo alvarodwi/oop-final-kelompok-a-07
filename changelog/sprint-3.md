@@ -1,6 +1,6 @@
 # Scrum Report (Sprint 3)
 
-| From dd/mm/yyyy to dd/mm/yyyy
+| From 1/12/2021 to 6/12/2021
 
 ## Team Emergence
 
@@ -14,7 +14,7 @@
 
 | Planned (n) | Completed (n) |
 |-------------|---------------|
-| 7           | 3             |
+| 7           | 8             |
 
 ## Sprint 3 Backlog
 
@@ -22,12 +22,13 @@
 |-----|------------------------------------------|---------|--------|
 | 3.1 | Implementasi Args                        | Alvaro  | Done   |
 | 3.2 | Implementasi Error Handling              | Alvaro  | Done   |
-| 3.3 | Implementasi UI puzzle solved            | Rasyid  | Done   |
-| 3.4 | Implementasi puzzle solved               | Ariq    | Done   |
-| 3.5 | Menghubungkan UI puzzle ke puzzle solved | Ariq    | Done   |
-| 3.6 | Mencoba membuat JAR                      | Alvaro  |        |
-| 3.7 | Finishing                                | Ariq    |        |
+| 3.3 | Bug fix bagian shuffling                 | Alvaro  | Done   |
+| 3.4 | Implementasi UI puzzle solved            | Rasyid  | Done   |
+| 3.5 | Implementasi puzzle solved               | Ariq    | Done   |
+| 3.6 | Menghubungkan UI puzzle ke puzzle solved | Ariq    | Done   |
+| 3.7 | Mencoba membuat JAR                      | Alvaro  | Done   |
+| 3.8 | Finishing                                | Alvaro  | Done   |   
 
 ## Retrospective
 
-Sprint kemarin dianggap terlalu sedikit sehingga diperlukan adanya penyesuaian tugas. Lorem ipsum dolor sit amet
+Adanya bug (di bagian shuffling) yang tidak terdeteksi hingga sprint2 selesai dan baru ditemukan di sprint3

@@ -3,26 +3,16 @@ package team.emergence._15puzzle.core;
 import java.util.concurrent.TimeUnit;
 
 public class Stopwatch {
-    private final long nanoSecondsPerMillisecond = 1000000;
-
     private long startTime = 0;
-    private long stopTime = 0;
     private long pausedTime = 0;
     private long resumedTime = 0;
     private long lastElapsedTime = 0;
-    private boolean isRunning = false;
     private boolean isPaused = false;
     private boolean isPausedOnce = false;
 
 
     public void start() {
         this.startTime = System.nanoTime();
-        this.isRunning = true;
-    }
-
-    public void stop() {
-        this.stopTime = lastElapsedTime;
-        this.isRunning = false;
     }
 
     public void pause() {
@@ -41,27 +31,24 @@ public class Stopwatch {
         this.isPaused = false;
     }
 
-    public long getElapsedMilliseconds() {
+    private long getElapsedMilliseconds() {
         long elapsedTime;
 
-        if (isRunning) {
-            if (isPaused) {
-                if (!isPausedOnce) {
-                    elapsedTime = pausedTime - startTime;
-                } else {
-                    elapsedTime = lastElapsedTime;
-                }
+        if (isPaused) {
+            if (!isPausedOnce) {
+                elapsedTime = pausedTime - startTime;
             } else {
-                if (!isPausedOnce) {
-                    elapsedTime = (pausedTime - startTime) + (System.nanoTime() - resumedTime);
-                } else {
-                    elapsedTime = lastElapsedTime + (System.nanoTime() - resumedTime);
-                }
+                elapsedTime = lastElapsedTime;
             }
+        } else {
+            if (!isPausedOnce) {
+                elapsedTime = (pausedTime - startTime) + (System.nanoTime() - resumedTime);
+            } else {
+                elapsedTime = lastElapsedTime + (System.nanoTime() - resumedTime);
+            }
+        }
 
-        } else
-            elapsedTime = (stopTime - startTime);
-
+        long nanoSecondsPerMillisecond = 1000000;
         return elapsedTime / nanoSecondsPerMillisecond;
     }
 

@@ -3,13 +3,11 @@ package team.emergence._15puzzle.model;
 public class GameConfig {
     private final int difficulty;
     private final String filePath;
-    private final boolean useSample;
     private final double tileSize;
 
-    public GameConfig(int difficulty, String filePath, boolean useSample) {
+    public GameConfig(int difficulty, String filePath) {
         this.difficulty = difficulty;
         this.filePath = filePath;
-        this.useSample = useSample;
         this.tileSize = 600.0 / difficulty;
     }
 

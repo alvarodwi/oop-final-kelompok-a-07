@@ -10,13 +10,13 @@ public class Cell implements Cloneable {
     private final double tileSize;
 
     private final int initialValue;
-    private int currentValue;
+    private int value;
 
     public Cell(int x, int y, int initialValue, int tileCount, double tileSize) {
         this.x = x;
         this.y = y;
         this.initialValue = initialValue;
-        this.currentValue = initialValue;
+        this.value = initialValue;
         this.tileSize = tileSize;
         this.offsetX = (Constants.SCENE_WIDTH - tileCount * tileSize) / 2;
         this.offsetY = (Constants.SCENE_HEIGHT - tileCount * tileSize) / 2;
@@ -39,20 +39,20 @@ public class Cell implements Cloneable {
     }
 
     public int getValue() {
-        return currentValue;
+        return value;
     }
 
     public void setValue(int value) {
-        this.currentValue = value;
+        this.value = value;
     }
 
     public boolean isSolved() {
-        return this.currentValue == this.initialValue;
+        return this.value == this.initialValue;
     }
 
     @Override
     public String toString() {
-        return String.format("[%d,%d] with value=%d -> offsetX=%f; offsetY=%f; initialValue=%d\n", x, y, currentValue, offsetX, offsetY, initialValue);
+        return String.format("[%d,%d] with value=%d -> offsetX=%f; offsetY=%f; initialValue=%d\n", x, y, value, offsetX, offsetY, initialValue);
     }
 
     @Override

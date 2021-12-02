@@ -46,20 +46,35 @@ Ukuran puzzle ini 4x4 dengan 1 tile kosong sehingga berjumlah 15 sehingga disebu
   - Implementasi fitur refresh puzzle
   - Implementasi fitur pause dan resume puzzle
 
-- **[Sprint 3](changelog/sprint-3.md) - (x - x)**
+- **[Sprint 3](changelog/sprint-3.md) - (1/12/2021 - 6/12/2021)**
 
-  - Short changes 1
-  - Short changes 2
+  - Implementasi running aplikasi dengan args
+  - Implementasi FXML untuk Result
+  - Menghubungkan Puzzle ke Result
+  - Menghubungkan Result ke Launcher
+  - Bugfix shuffling puzzle
+  - Generate JAR
 
 ## Running The App
 
-Aplikasi kami dapat dijalankan dengan cara berikut :
+Aplikasi kami dapat dijalankan dengan 3 cara :
+
+### Clone dan build sendiri
+
+Cara ini membutuhkan repository ini di clone di local environment serta pastikan Java dan JavaFX versi > 16 telah dipasang.
+
+Untuk menjalankan aplikasi, tinggal jalankan ini di root folder project hasil clone.
 
 ```bash
 gradlew run
 ```
 
-Ketika dijalankan seperti ini, puzzle akan menampilkan window Launcher untuk konfigurasi puzzle.
+### Menggunakan JAR
+
+TODO
+
+---
+Aplikasi dapat dijalankan dengan arguments, lebih jelasnya lihat [Notable Assumption and Design App Details](#args)
 
 ## Classes Used
 
@@ -78,6 +93,10 @@ Berisi controller yang dihubungkan ke tampilan fxml UI.Kami menggunakan arsitekt
 
   Controller untuk window Puzzle, berisi kode untuk game puzzle.
 
+- 1.3 **ResultController** - [`ResultController.java`](src/main/java/team/emergence/_15puzzle/controller/ResultController.java)
+
+  Controller untuk dialog Result, berisi kode untuk menampilkan hasil serta kembali ke Launcher.
+
 ### 2. **core**
 
 Berisi komponen logika yang dipakai dalam puzzle.
@@ -86,15 +105,19 @@ Berisi komponen logika yang dipakai dalam puzzle.
 
   Komponen dasar untuk game slider, didalamnya ada logika untuk mengecek apakah puzzle bisa diselesaikan, apakah puzzle bisa diklik dan apakah puzzle telah terselesaikan.
 
-- 2.2. **BoardState** - [`BoardState.java`](src/main/java/team/emergence/_15puzzle/core/BoardState.java)
+- 2.2. **BoardListener** - [`BoardListener.java`](src/main/java/team/emergence/_15puzzle/core/BoardListener.java)
 
   Interface yang digunakan board untuk menjalankan kode dari luar Board. Di dalamnya diimplementasi dua state, yaitu onBoardClicked (dijalankan saat elemen puzzle diklik) serta onBoardSolved (dijalankan saat puzzle telah terselesaikan)
 
-- 2.3. **MoveCounter** - [`MoveCounter.java`](src/main/java/team/emergence/_15puzzle/core/MoveCounter.java)
+- 2.3. **DialogListener** - [`BoardListener.java`](src/main/java/team/emergence/_15puzzle/core/DialogListener.java)
+
+  Interface yang digunakan dialog untuk menjalankan kode dari luar classnya. Di dalamnya ada implementasi onClose().
+
+- 2.4. **MoveCounter** - [`MoveCounter.java`](src/main/java/team/emergence/_15puzzle/core/MoveCounter.java)
 
   Komponen yang digunakan untuk menghitung banyak gerakan dalam puzzle. Berisi logika untuk menghitung move saat pengguna mengerakkan puzzle.
 
-- 2.4. **Stopwatch** - [`Stopwatch.java`](src/main/java/team/emergence/_15puzzle/core/Stopwatch.java)
+- 2.5. **Stopwatch** - [`Stopwatch.java`](src/main/java/team/emergence/_15puzzle/core/Stopwatch.java)
 
   Komponen yang digunakan untuk mengitung waktu lamanya puzzle berjalan. Berisi logika untuk start, pause, resume, dan stop.
 
@@ -102,17 +125,18 @@ Berisi komponen logika yang dipakai dalam puzzle.
 
 Berisi class untuk menyimpan data dalam aplikasi
 
-- 3.1. **GameConfig** - [`GameConfig.java`](src/main/java/team/emergence/_15puzzle/model/GameConfig.java)
+- 3.1. **Cell** - [`Cell.java`](src/main/java/team/emergence/_15puzzle/model/Cell.java)
+
+  Komponen model untuk game slider, didalamnya berisi koordinat dari kepingan puzzle yang bisa digeser serta data posisi asli dari kepingan tersebut.
+
+- 3.2. **GameConfig** - [`GameConfig.java`](src/main/java/team/emergence/_15puzzle/model/GameConfig.java)
 
   Model untuk menyimpan konfigurasi dari game, berisi difficulty serta path untuk image yang dipakai. Model ini yang dioper dari Launcher ke dalam Puzzle serta disimpan dalam Session.
 
-- 3.2. **Session** - [`Session.java`](src/main/java/team/emergence/_15puzzle/model/Session.java)
+- 3.3. **Session** - [`Session.java`](src/main/java/team/emergence/_15puzzle/model/Session.java)
 
   Model untuk menyimpan data saat puzzle berjalan, berisi MoveCounter, Stopwatch, dam GameConfig yang digunakan untuk menjalankan puzzle.
 
-- 3.3. **Cell** - [`Cell.java`](src/main/java/team/emergence/_15puzzle/model/Cell.java)
-
-  Komponen model untuk game slider, didalamnya berisi koordinat dari kepingan puzzle yang bisa digeser serta data posisi asli dari kepingan tersebut.
 
 ### 4. **util**
 
@@ -148,7 +172,8 @@ Berisi class untuk menyimpan data dalam aplikasi
 
   UI dari Puzzle, dibuat menggunakan Gluon Scene Builder.
 
-UML image here
+---
+![uml](docs/uml.png)
 
 ## Notable Assumption and Design App Details
 
@@ -158,6 +183,26 @@ UML image here
   - Window Puzzle berisi tampilan Puzzle
 - Resolusi PuzzleGrid paling optimal untuk penggunaan 2 argumen adalah 1280x720.
 - Rekomendasi kesulitan game adalah 3x3, 4x4, dan 5x5.
+
+### Args
+- Aplikasi ini akan membaca 2 args
+  - args pertama berupa int untuk n ukuran puzzle dengan ketentuan (2 >= n <= 10)
+  - args kedua berupa string untuk filepath gambar custom yang akan dipakai
+    - dapat berupa full path ke gambar (eg. "C:\Users\varoa\Downloads\image\blahaj.jpeg")
+    - dapat berupa teks "sample1", "sample2", "sample3" (untuk mengakses sample image)
+
+Contoh pemakaian
+
+(untuk puzzle 6x6 dengan gambar default sample3
+
+**Gradle**
+```bash
+gradlew run --args='6 "sample3"'
+```
+**JAR**
+```bash
+java -jar _15puzzle.jar 6 "sample3"
+```
 
 ### Fitur Aplikasi
 - Gambar preset disediakan 3 jenis gambar tetapi user bisa memasukkan gambar custom secara manual dengan memilih 'Import Image'.

@@ -5,7 +5,7 @@
 ## Team Emergence
 
 | NPM          | Name                       |
-| ------------ | -------------------------- |
+|--------------|----------------------------|
 | 140810200001 | Ariq Hakim Ruswadi         |
 | 140810200041 | Alvaro Dwi Oktaviano       |
 | 140810200049 | Rafiansyah Rasyid Wikawang |
@@ -13,13 +13,13 @@
 ## Sprint Overview
 
 | Planned (n) | Completed (n) |
-| ----------- | ------------- |
+|-------------|---------------|
 | 11          | 13            |
 
 ## Sprint 2 Backlog
 
 | ID  | Title/Desc                         | Asignee | Status |
-| --- | ---------------------------------- | ------- | ------ |
+|-----|------------------------------------|---------|--------|
 | 1.2 | Implementasi Komponen Game Board   | Alvaro  | Done   |
 | 1.3 | Implementasi Komponen Timer        | Ariq    | Done   |
 | 1.4 | Implementasi Komponen Counter      | Ariq    | Done   |
@@ -44,7 +44,7 @@
 ## Next Sprint Backlog (Sprint 3)
 
 | ID  | Title/Desc                               | Asignee |
-| --- | ---------------------------------------- | ------- |
+|-----|------------------------------------------|---------|
 | 3.1 | Implementasi Args                        | Alvaro  |
 | 3.2 | Implementasi Error Handling              | Alvaro  |
 | 3.3 | Implementasi UI puzzle solved            | Rasyid  |
