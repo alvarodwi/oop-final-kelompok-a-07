@@ -71,10 +71,21 @@ gradlew run
 
 ### Menggunakan JAR
 
-TODO
+Cara ini memerlukan JAR, seperti yang ada di [Release](https://github.com/praktikum-tiunpad-2021/oop-final-kelompok-a-07/releases/tag/1.0.0)
+
+Selain itu, JAR juga bisa dibuat menggunakan
+```bash
+gradlew shadowJar
+```
+
+Kemudian jalankan file JAR dengan
+
+```bash
+java -jar _15Puzzle.jar
+```
 
 ---
-Aplikasi dapat dijalankan dengan arguments, lebih jelasnya lihat [Notable Assumption and Design App Details](#args)
+Aplikasi ini juga dapat dijalankan dengan arguments, lebih jelasnya lihat [Notable Assumption and Design App Details](#args)
 
 ## Classes Used
 
