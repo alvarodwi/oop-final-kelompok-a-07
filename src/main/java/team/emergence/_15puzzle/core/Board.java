@@ -46,14 +46,15 @@ public class Board extends Pane {
 
     public void initializeBoard() {
         this.getChildren().clear();
-        initialCells.clear();
-        cells.clear();
+        initialCells = new CopyOnWriteArrayList<>();
+        cells = new CopyOnWriteArrayList<>();
+
 
         int tileCount = config.getDifficulty();
         Image image = new Image(config.getFilePath(), 600, 600, false, true);
 
-        for (int x = 0; x < tileCount; x++) {
-            for (int y = 0; y < tileCount; y++) {
+        for (int y = 0; y < tileCount; y++) {
+            for (int x = 0; x < tileCount; x++) {
                 ImageView tile = new ImageView(image);
                 Rectangle2D rect = new Rectangle2D(
                         config.getTileSize() * x,

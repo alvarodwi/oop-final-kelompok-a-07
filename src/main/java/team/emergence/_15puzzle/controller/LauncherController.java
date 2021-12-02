@@ -38,7 +38,6 @@ public class LauncherController implements Initializable {
 
     private int difficulty;
     private String filePath;
-    private GameConfig config;
 
     public LauncherController() {
         difficulty = 3;
@@ -120,7 +119,7 @@ public class LauncherController implements Initializable {
     }
 
     private void moveToPuzzle() {
-        config = new GameConfig(2, filePath);
+        GameConfig config = new GameConfig(difficulty, filePath);
         Stage stage = (Stage) btnStart.getScene().getWindow();
         stage.close();
 

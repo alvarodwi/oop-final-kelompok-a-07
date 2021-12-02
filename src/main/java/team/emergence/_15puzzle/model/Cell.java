@@ -13,6 +13,7 @@ public class Cell implements Cloneable {
     private int currentValue;
 
     public Cell(int x, int y, int initialValue, int tileCount, double tileSize) {
+        System.out.printf("Created cell with [%d,%d] with value of %d\n",x ,y,initialValue);
         this.x = x;
         this.y = y;
         this.initialValue = initialValue;
@@ -52,7 +53,7 @@ public class Cell implements Cloneable {
 
     @Override
     public String toString() {
-        return String.format("[%d,%d] with value=%d\noffsetX=%f; offsetY=%f; initialValue=%d", x, y, currentValue, offsetX, offsetY, initialValue);
+        return String.format("[%d,%d] with value=%d -> offsetX=%f; offsetY=%f; initialValue=%d\n", x, y, currentValue, offsetX, offsetY, initialValue);
     }
 
     @Override

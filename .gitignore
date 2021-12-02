@@ -91,4 +91,6 @@ gradle-app.setting
 .settings/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij
+
+bin/
 No newline at end of file
