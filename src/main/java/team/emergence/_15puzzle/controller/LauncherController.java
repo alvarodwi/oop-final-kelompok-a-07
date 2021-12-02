@@ -152,7 +152,9 @@ public class LauncherController implements Initializable {
             if (parameters.size() > 1) {
                 filePath = parameters.get(1);
                 switch (filePath) {
-                    case "sample1", "sample2", "sample3" -> useSample = true;
+                    case "sample1" -> onClickBtnImg(1);
+                    case "sample2" -> onClickBtnImg(2);
+                    case "sample3" -> onClickBtnImg(3);
                     default -> useSample = false;
                 }
             }
