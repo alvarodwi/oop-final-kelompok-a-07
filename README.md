@@ -57,7 +57,7 @@ Ukuran puzzle ini 4x4 dengan 1 tile kosong sehingga berjumlah 15 sehingga disebu
 
 ## Running The App
 
-Aplikasi kami dapat dijalankan dengan 3 cara :
+Aplikasi kami dapat dijalankan dengan 2 cara :
 
 ### Clone dan build sendiri
 
