@@ -10,6 +10,8 @@ This repository is a final project (Java GUI) from Object-Oriented Programming C
 
 Ukuran puzzle ini 4x4 dengan 1 tile kosong sehingga berjumlah 15 sehingga disebut 15 Puzzle. Selain itu ada variasi lain seperti 8 Puzzle yang merupakan versi 3x3 dari 15 Puzzle.
 
+![example](docs/example.gif)
+
 ## Credits
 
 | NPM          | Name                       |
