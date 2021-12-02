@@ -213,11 +213,15 @@ public class Board extends Pane {
 
     private boolean isSolvable(int emptyRow) {
         int tileCount = config.getDifficulty();
-        System.out.println("sumInversions : " + sumInversions());
+        int inv = sumInversions();
         if (tileCount % 2 == 1) {
-            return (sumInversions() % 2 == 0);
+            return (inv % 2 == 0);
         } else {
-            return ((sumInversions() + tileCount - emptyRow) % 2 == 0);
+            if(emptyRow % 2 == 1){
+                return (inv % 2 == 0);
+            }else {
+                return (inv % 2 == 1);
+            }
         }
     }
 
@@ -227,7 +231,6 @@ public class Board extends Pane {
 
         int currentCellIndex = puzzleImages.indexOf((ImageView) node);
         int emptyCellIndex = puzzleImages.indexOf(null);
-        System.out.println(currentCellIndex);
 
         Cell currentCell = cells.stream()
                 .filter(c -> c.getValue() == currentCellIndex)
@@ -242,13 +245,10 @@ public class Board extends Pane {
         if (currentCell == null || emptyCell == null)
             return;
 
-        System.out.printf("[%d,%d] -> current || [%d,%d] -> empty\n", currentCell.getX(), currentCell.getY(), emptyCell.getX(), emptyCell.getY());
         int steps = Math.abs(currentCell.getX() - emptyCell.getX()) + Math.abs(currentCell.getY() - emptyCell.getY());
-        System.out.println("Steps is " + steps);
         if (steps != 1)
             return;
 
-        System.out.println("Transition: " + currentCell + " -> " + emptyCell);
 
         Path path = new Path();
         path.getElements()
@@ -286,7 +286,6 @@ public class Board extends Pane {
             }
         }
 
-        System.out.println("Solved: " + allSolved);
         return allSolved;
     }
 }
