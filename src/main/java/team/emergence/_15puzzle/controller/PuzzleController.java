@@ -13,10 +13,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import team.emergence._15puzzle.core.Board;
-import team.emergence._15puzzle.core.BoardState;
+import team.emergence._15puzzle.core.BoardListener;
+import team.emergence._15puzzle.core.DialogListener;
 import team.emergence._15puzzle.model.GameConfig;
 import team.emergence._15puzzle.model.Session;
 import team.emergence._15puzzle.util.ResourceLoader;
@@ -64,7 +66,7 @@ public class PuzzleController implements Initializable {
         }
         board = new Board(
                 config,
-                new BoardState() {
+                new BoardListener() {
                     @Override
                     public void onBoardClicked() {
                         session.getCounter().count();
@@ -86,19 +88,39 @@ public class PuzzleController implements Initializable {
 
     private void moveToResult() {
         Stage stage = (Stage) btnBack.getScene().getWindow();
-        stage.close();
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
 
         try {
-            FXMLLoader loader = new FXMLLoader(ResourceLoader.loadResourceURL("team/emergence/_15puzzle/fxml/Result.fxml"));
-            Parent root = loader.load();
+            FXMLLoader dialogLoader = new FXMLLoader(ResourceLoader.loadResourceURL("team/emergence/_15puzzle/fxml/Result.fxml"));
+            Parent dialogRoot = dialogLoader.load();
 
-            ResultController controller = loader.getController();
+            ResultController controller = dialogLoader.getController();
             controller.setResult(session.getStopwatch().toString(),String.valueOf(session.getCounter().getMove()));
             controller.setParameters(parameters);
+            controller.setListener(
+                    () -> {
+                        stage.close();
 
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+                        try {
+                            FXMLLoader loader = new FXMLLoader(ResourceLoader.loadResourceURL("team/emergence/_15puzzle/fxml/Launcher.fxml"));
+                            Parent root = loader.load();
+
+                            LauncherController controller1 = loader.getController();
+                            controller1.setParameters(parameters);
+
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+            );
+
+            Scene scene = new Scene(dialogRoot);
+            dialogStage.setScene(scene);
+            dialogStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

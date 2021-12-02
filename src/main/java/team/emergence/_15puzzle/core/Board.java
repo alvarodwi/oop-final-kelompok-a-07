@@ -21,16 +21,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Board extends Pane {
     private final GameConfig config;
-    private final BoardState state;
+    private final BoardListener listener;
     private final ArrayList<ImageView> puzzleImages;
     private CopyOnWriteArrayList<Cell> initialCells = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Cell> cells = new CopyOnWriteArrayList<>();
     private boolean isPaused = false;
 
 
-    public Board(GameConfig config, BoardState state) {
+    public Board(GameConfig config, BoardListener listener) {
         this.config = config;
-        this.state = state;
+        this.listener = listener;
         int tileCount = (config.getDifficulty() * config.getDifficulty());
         puzzleImages = new ArrayList<>(Collections.nCopies(tileCount, null));
         initializeBoard();
@@ -268,9 +268,9 @@ public class Board extends Pane {
         final Cell b = emptyCell;
         pathTransition.setOnFinished(actionEvent -> {
             swapCell(a, b);
-            state.onBoardClicked();
+            listener.onBoardClicked();
             if (checkSolved()) {
-                state.onBoardSolved();
+                listener.onBoardSolved();
             }
         });
 
