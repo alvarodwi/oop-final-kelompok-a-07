@@ -27,7 +27,7 @@ public class GameConfig {
 
     @Override
     public String toString() {
-        return String.format("diff > %d\npath > %s\n", difficulty,filePath);
+        return String.format("diff > %d\npath > %s\n", difficulty, filePath);
     }
 }
 

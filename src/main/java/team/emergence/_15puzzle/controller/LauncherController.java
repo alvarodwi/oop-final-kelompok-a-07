@@ -18,9 +18,7 @@ import team.emergence._15puzzle.util.ResourceLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -90,10 +88,10 @@ public class LauncherController implements Initializable {
 
     private void setSelectedImage(String path) {
         Image img;
-        if(useSample) {
+        if (useSample) {
             filePath = path;
-            img = new Image(ResourceLoader.loadResource(path),600,600,false,true);
-        }else {
+            img = new Image(ResourceLoader.loadResource(path), 600, 600, false, true);
+        } else {
             filePath = "file:///" + path;
             img = new Image(filePath, 600, 600, false, true);
         }

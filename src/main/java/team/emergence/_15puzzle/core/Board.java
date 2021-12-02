@@ -217,9 +217,9 @@ public class Board extends Pane {
         if (tileCount % 2 == 1) {
             return (inv % 2 == 0);
         } else {
-            if(emptyRow % 2 == 1){
+            if (emptyRow % 2 == 1) {
                 return (inv % 2 == 0);
-            }else {
+            } else {
                 return (inv % 2 == 1);
             }
         }

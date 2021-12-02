@@ -7,9 +7,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import team.emergence._15puzzle.controller.LauncherController;
-import team.emergence._15puzzle.controller.ResultController;
 import team.emergence._15puzzle.util.ResourceLoader;
 
 import java.util.Objects;
@@ -21,7 +21,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("15 Game");
+        primaryStage.setTitle("15 Puzzle");
         FXMLLoader loader = new FXMLLoader(ResourceLoader.loadResourceURL("team/emergence/_15puzzle/fxml/Launcher.fxml"));
         Parent root = loader.load();
 
@@ -32,6 +32,7 @@ public class App extends Application {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("app.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
+        primaryStage.getIcons().add(new Image(ResourceLoader.loadResource("team/emergence/_15puzzle/icon.png")));
         primaryStage.show();
     }
 }

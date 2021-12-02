@@ -87,6 +87,8 @@ public class PuzzleController implements Initializable {
 
     private void moveToResult() {
         Stage dialogStage = new Stage();
+        dialogStage.setTitle("15 Puzzle");
+        dialogStage.getIcons().add(new Image(ResourceLoader.loadResource("team/emergence/_15puzzle/icon.png")));
         dialogStage.setResizable(false);
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.setOnCloseRequest(event -> {

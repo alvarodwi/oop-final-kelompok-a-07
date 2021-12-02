@@ -1,22 +1,17 @@
 package team.emergence._15puzzle.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import team.emergence._15puzzle.core.DialogListener;
-import team.emergence._15puzzle.util.ResourceLoader;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ResultController implements Initializable{ 
+public class ResultController implements Initializable {
     @FXML
     private Button btnBack;
     @FXML
@@ -39,7 +34,7 @@ public class ResultController implements Initializable{
         // do nothing
     }
 
-    public void setResult(String time, String move){
+    public void setResult(String time, String move) {
         txtMoveCount.setText(move);
         txtTimer.setText(time);
     }
