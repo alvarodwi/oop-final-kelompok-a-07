@@ -192,6 +192,7 @@ Berisi class untuk menyimpan data dalam aplikasi
 - Ada 2 window dalam aplikasi ini, yaitu Launcher dan Puzzle
   - Window Launcher berisi konfigurasi game yaitu memilih tingkat kesulitan atau jumlah grid serta memilih gambar yang akan dimainkan
   - Window Puzzle berisi tampilan Puzzle
+- Selain itu, ada juga dialog Result yang muncul setelah puzzle berhasil diselesaikan.
 - Resolusi PuzzleGrid paling optimal untuk penggunaan 2 argumen adalah 1280x720.
 - Rekomendasi kesulitan game adalah 3x3, 4x4, dan 5x5.
 
@@ -202,7 +203,7 @@ Berisi class untuk menyimpan data dalam aplikasi
     - dapat berupa full path ke gambar (eg. "C:\Users\varoa\Downloads\image\blahaj.jpeg")
     - dapat berupa teks "sample1", "sample2", "sample3" (untuk mengakses sample image)
 
-Contoh pemakaian
+**Contoh Pemakaian**
 
 (untuk puzzle 6x6 dengan gambar default sample3
 
