@@ -155,6 +155,7 @@ public class LauncherController implements Initializable {
                 filePath = parameters.get(1);
                 switch (filePath) {
                     case "sample1", "sample2", "sample3" -> useSample = true;
+                    default -> useSample = false;
                 }
             }
         }
