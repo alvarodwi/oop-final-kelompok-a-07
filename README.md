@@ -183,6 +183,10 @@ Berisi class untuk menyimpan data dalam aplikasi
 
   UI dari Puzzle, dibuat menggunakan Gluon Scene Builder.
 
+- 5.3. **Result.fxml** - [`Result.fxml`](src/main/resources/team/emergence/_15puzzle/fxml/Result.fxml)
+
+  UI dari Result dialog, dibuat menggunakan Gluon Scene Builder.
+
 ---
 ![uml](docs/uml.png)
 
