@@ -209,7 +209,7 @@ Berisi class untuk menyimpan data dalam aplikasi
 
 **Gradle**
 ```bash
-gradlew run --args='6 "sample3"'
+gradlew run --args="6 "sample3""
 ```
 **JAR**
 ```bash
